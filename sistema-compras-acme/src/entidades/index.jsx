@@ -1,0 +1,1 @@
+export { default as Carregando } from "./carregando";
