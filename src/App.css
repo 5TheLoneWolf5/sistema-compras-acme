@@ -1,5 +1,38 @@
-.linksMenu {
+* {
+    box-sizing: border-box;
+    font-family: sans-serif, Arial, Helvetica;
+    /* margin: 0;
+    padding: 0; */
+}
 
-    
+html {
+    scroll-behavior: smooth;
+}
 
+.linksMenu:link, .linksMenu:active, .linksMenu:visited {
+    text-decoration: none;
+    /* color: black; */
+}
+
+.linksMenu:hover {
+    color: #949494;
+}
+
+.linksNav {
+    color: white;
+    background-color: #091e63;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px 0;
+    vertical-align: middle;
+    line-height: 60px;
+    z-index: 1;
+}
+
+.linksNav:hover {
+    background-color: #353535;
+}
+
+.linksNav:active {
+    background-color: #1f1f1f;
 }
