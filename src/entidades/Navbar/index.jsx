@@ -29,7 +29,7 @@ const Menu = styled.img`
 
 const linkStyle = {
 
-    display: "flex"
+    display: "flex",
 
 };
 
