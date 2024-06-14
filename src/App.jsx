@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import NavBar from "./entidades/Navbar";
-import { Carregando, Home } from "./entidades";
+import { Carregando, Fornecedores, Home, Navbar, Produtos } from "./entidades";
 import { Suspense } from "react";
 
 function App() {
@@ -11,12 +10,15 @@ function App() {
       <BrowserRouter>
         
         <Suspense fallback={<Carregando  />}>
-        <NavBar />
+        <Navbar />
+
         <Routes>
           <Route path="/" element={<Home />}>
-
+              <Route path="fornecedores" element={<Fornecedores />} />
+              <Route path="produtos" element={<Produtos />} />
           </Route>
         </Routes>
+
         </Suspense>
       </BrowserRouter>
     </>
