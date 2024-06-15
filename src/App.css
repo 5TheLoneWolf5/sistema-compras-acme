@@ -1,12 +1,17 @@
 * {
     box-sizing: border-box;
     font-family: sans-serif, Arial, Helvetica;
-    /* margin: 0;
-    padding: 0; */
 }
 
-html {
+html, body, #root {
     scroll-behavior: smooth;
+    max-width: 100%;
+    margin: 2px;
+    padding: 0px;
+}
+
+#header-and-main {
+    min-height: 85vh;
 }
 
 .linksMenu:link, .linksMenu:active, .linksMenu:visited {
@@ -27,6 +32,13 @@ html {
     vertical-align: middle;
     line-height: 60px;
     z-index: 1;
+}
+
+@media (min-width: 599px) {
+    .linksNav {
+        flex-grow: 1;
+        width: fit-content;
+    }
 }
 
 .linksNav:hover {
