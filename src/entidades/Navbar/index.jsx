@@ -26,6 +26,7 @@ const Nav = styled.nav`
     align-items: center;
     text-align: center;
     font-size: 0.9rem;
+    transform: translateX(100%);
     @media (min-width: ${(props) => props.sizes.small}) {
         font-size: 1.2rem;
         position: static;
@@ -67,7 +68,6 @@ const Blackspace = styled.div`
     top: 0;
     bottom: 0;
     cursor: pointer;
-
     @media (min-width: ${(props) => props.sizes.small}) {
         display: none;
     }
@@ -108,7 +108,7 @@ const Navbar = (props) => {
                 <Menu id="menu" onClick={handleMenu} src="/src/assets/menu.svg" sizes={props.sizes} />
                 {(toggleMenu || screenSize) && <>
                     <Blackspace onClick={handleMenu} sizes={props.sizes} />
-                    <Nav sizes={props.sizes}>
+                    <Nav className="slideIn" sizes={props.sizes}>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/produtos">Produtos</Link>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/cotacoes">Cotações</Link>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/fornecedores">Fornecedores</Link>

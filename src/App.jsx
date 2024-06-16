@@ -1,11 +1,11 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Carregando, Contatos, Cotacoes, Fornecedores, Home, Navbar, Produtos } from "./entidades";
-import { Suspense } from "react";
+import { Carregando, Contatos, Cotacoes, Fornecedores, Home, Navbar, Produtos, Rodape } from "./entidades";
+import { Suspense, useState } from "react";
 
 
 const sizes = {
-  
+
   small: "599px",
   medium: "768px",
   large: "899px",
@@ -15,21 +15,25 @@ const sizes = {
 function App() {
 
   return (
-    <>
-      <BrowserRouter>
-        <Suspense fallback={<Carregando  />}>
 
-        <Routes>
-          <Route path="/" element={<Home sizes={sizes} />}>
+    <>
+        <BrowserRouter>
+        <div id="header-and-main">
+          <Suspense fallback={<Carregando />}>
+            <Navbar sizes={sizes} />
+            <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="produtos" element={<Produtos />} />
               <Route path="cotacoes" element={<Cotacoes />} />
               <Route path="fornecedores" element={<Fornecedores />} />
               <Route path="contatos" element={<Contatos />} />
-          </Route>
-        </Routes>
-        </Suspense>
-      </BrowserRouter>
+            </Routes>
+          </Suspense>
+          </div>
+          <Rodape />
+        </BrowserRouter>
     </>
+
   );
 
 };

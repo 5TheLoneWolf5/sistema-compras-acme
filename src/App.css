@@ -5,6 +5,7 @@
 
 html, body, #root {
     scroll-behavior: smooth;
+    overflow-x: hidden;
     max-width: 100%;
     margin: 2px;
     padding: 0px;
@@ -21,6 +22,14 @@ html, body, #root {
 
 .linksMenu:hover {
     color: #949494;
+}
+
+.slideIn {
+    animation: slideIn 1.0s ease forwards;
+}
+
+@keyframes slideIn {
+    100% { transform: translateX(0%); }
 }
 
 .linksNav {
