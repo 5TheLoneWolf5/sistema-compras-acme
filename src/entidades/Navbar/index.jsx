@@ -93,6 +93,7 @@ const Navbar = (props) => {
     useEffect(() => {
         
         window.matchMedia(`(min-width: ${props.sizes.small})`).addEventListener("change", e => setScreenSize(e.matches));
+        setToggleMenu(false);
 
     }, []);
 

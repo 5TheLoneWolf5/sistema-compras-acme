@@ -1,24 +1,31 @@
-import DataTable from "react-data-table-component";
+import { useForm } from "react-hook-form";
+import styled from "styled-components";
+
+const Form = styled.form`
+
+`;
+
+const ErrorSection = styled.div`
+
+`;
 
 const FormContatos = (props) => {
 
+    const { register, handleSubmit, formState: { errors, isSubmitted }, reset, setValue } = useForm();
 
-    const columns = [];
+    const submitFunctionality = (data) => {
+
+    };
 
     return (
-        <>
-            <DataTable 
-                columns={columns}
-                data={props.data}
-                pagination
-                paginationPerPage={10}
-                dense
-                responsivestriped
-                selectableRows
-                selectableRowsHighlight
-                selectableSingle
-             />
-        </>
+        <div>
+            <Form onSubmit={handleSubmit(submitFunctionality)}>
+
+            </Form>
+            <ErrorSection>
+
+            </ErrorSection>
+        </div>
     );
 
 };
