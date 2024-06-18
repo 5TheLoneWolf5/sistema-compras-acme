@@ -43,17 +43,35 @@ html, body, #root {
     z-index: 1;
 }
 
-@media (min-width: 599px) {
-    .linksNav {
-        flex-grow: 1;
-        width: fit-content;
-    }
-}
-
 .linksNav:hover {
     background-color: #353535;
 }
 
 .linksNav:active {
     background-color: #1f1f1f;
+}
+
+@media (max-width: 330px) {
+
+    .imgsHeader {
+        width: 60px !important;
+        padding: 0 0 !important;
+    }
+
+    .imgsHeader > * {
+        width: 100% !important;
+        padding: 0 0 !important;
+    }
+
+    .title {
+        display: none;
+    }
+
+}
+
+@media (min-width: 599px) {
+    .linksNav {
+        flex-grow: 1;
+        width: fit-content;
+    }
 }

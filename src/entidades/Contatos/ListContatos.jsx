@@ -18,11 +18,6 @@ const ListContatos = (props) => {
             selector: row => row.numero,
             sortable: true,
         },
-        {
-            name: "ID Funcionário",
-            selector: row => row.idFuncionario,
-            sortable: true,
-        },
         
     ];
 
@@ -34,8 +29,11 @@ const ListContatos = (props) => {
                 pagination
                 paginationPerPage={10}
                 dense
-                responsivestriped
+                responsive
+                striped
                 noDataComponent="Sem dados."
+                paginationComponentOptions={{ rowsPerPageText: "Por página: ", rangeSeparatorText: "de" }}
+                defaultSortFieldId={1}
                 selectableRows
                 selectableRowsHighlight
                 selectableSingle

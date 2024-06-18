@@ -3,6 +3,11 @@ import { db } from "../../utils/auth";
 
 export async function insertContato(contato) {
 
+    console.log(contato)
+    console.log(contato.id, contato.nome)
+    contato.idFornecedor = JSON.parse(contato.nome)["0"];
+    contato.nome = JSON.parse(contato.nome)["1"];
+    
     const docRef = await addDoc(collection(db, "contatos"), contato);
     return docRef.id;
 

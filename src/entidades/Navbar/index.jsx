@@ -23,6 +23,7 @@ const Nav = styled.nav`
     width: 40vw;
     background-color: black;
     padding: 10px;
+    z-index: 1;
     align-items: center;
     text-align: center;
     font-size: 0.9rem;
@@ -64,6 +65,7 @@ const Blackspace = styled.div`
     position: absolute;
     background-color: black;
     opacity: 0.5;
+    z-index: 1;
     left: 0;
     top: 0;
     bottom: 0;
@@ -102,11 +104,13 @@ const Navbar = (props) => {
     return (
         <>
             <Header>
-                <Link className="linksMenu" style={ { ...linkStyle } } to="/">
+                <Link className="linksMenu imgsHeader" style={ { ...linkStyle } } to="/">
                     <Logo src="./src/assets/logo.svg" />
-                    <Title>ACME</Title>
+                    <Title className="title">ACME</Title>
                 </Link>
+                <div className="imgsHeader">
                 <Menu id="menu" onClick={handleMenu} src="/src/assets/menu.svg" sizes={props.sizes} />
+                </div>
                 {(toggleMenu || screenSize) && <>
                     <Blackspace onClick={handleMenu} sizes={props.sizes} />
                     <Nav className="slideIn" sizes={props.sizes}>

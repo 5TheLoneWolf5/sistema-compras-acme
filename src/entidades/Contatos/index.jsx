@@ -6,6 +6,7 @@ import ListContatos from "./ListContatos";
 const Contatos = (props) => {
 
     const [data, setData] = useState();
+    const [selectedData, setSelectedData] = useState();
 
     useEffect(() => {
 
@@ -13,7 +14,7 @@ const Contatos = (props) => {
             setData(await listContatos());
         };
 
-        console.log(data)
+        // console.log(data);
 
         fetchData();
 
@@ -21,7 +22,7 @@ const Contatos = (props) => {
 
     return (
         <>
-            <h1>Registrar Contatos</h1>
+            <h1>Registrar e Ler Contatos</h1>
             <FormContatos />
             <ListContatos data={data} />
         </>
