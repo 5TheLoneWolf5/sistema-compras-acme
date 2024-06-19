@@ -2,6 +2,16 @@ import DataTable from "react-data-table-component";
 
 const ListContatos = (props) => {
 
+    const handleSelected = ({ selectedRows }) => {
+
+        // console.log(props.data);
+        const idLastSelected = selectedRows[0]?.id;
+
+        idLastSelected ? props.setSelectedData(idLastSelected) : props.setSelectedData("");
+        // console.log(idLastSelected);
+
+    };
+
     const columns = [
         {
             name: "Nome",
@@ -23,7 +33,7 @@ const ListContatos = (props) => {
 
     return (
         <>
-            <DataTable 
+            <DataTable
                 columns={columns}
                 data={props.data}
                 pagination
@@ -37,6 +47,7 @@ const ListContatos = (props) => {
                 selectableRows
                 selectableRowsHighlight
                 selectableSingle
+                onSelectedRowsChange={handleSelected}
              />
         </>
     );

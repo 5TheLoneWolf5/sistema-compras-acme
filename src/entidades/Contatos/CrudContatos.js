@@ -1,12 +1,20 @@
-import { addDoc, collection, deleteDoc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../utils/auth";
+
+const sanitizeContato = (contato) => {
+    
+    // console.log(contato);
+    // console.log(contato.id, contato.nome);
+    contato.idFornecedor = JSON.parse(contato.nome)["0"];
+    contato.nome = JSON.parse(contato.nome)["1"];
+
+    return contato;
+
+};
 
 export async function insertContato(contato) {
 
-    console.log(contato)
-    console.log(contato.id, contato.nome)
-    contato.idFornecedor = JSON.parse(contato.nome)["0"];
-    contato.nome = JSON.parse(contato.nome)["1"];
+    contato = sanitizeContato(contato);
     
     const docRef = await addDoc(collection(db, "contatos"), contato);
     return docRef.id;
@@ -14,6 +22,7 @@ export async function insertContato(contato) {
 };
 
 export async function listContatos() {
+
     let result;
 
     await getDocs(collection(db, "contatos"))
@@ -36,11 +45,17 @@ export async function obtainContato(id) {
 
 export async function removeContato(id) {
 
-    await deleteDoc(doc(db, "contatos"), id);
+    await deleteDoc(doc(db, "contatos", id));
 
 };
 
 export async function updateContato(contato) {
+
+    // console.log(contato);
+
+    contato = sanitizeContato(contato);
+
+    // console.log(contato);
 
     await setDoc(doc(db, "contatos", contato.id), contato);
 

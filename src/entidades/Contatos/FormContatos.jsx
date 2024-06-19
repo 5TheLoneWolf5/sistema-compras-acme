@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { insertContato } from "./CrudContatos";
+import { insertContato, obtainContato, removeContato, updateContato } from "./CrudContatos";
 import { useEffect, useState } from "react";
 import { listFornecedores } from "../Fornecedores/CrudFornecedores";
 import { regexEmail, regexNumber } from "../../utils/regex";
 
 const Form = styled.form`
     width: 250px;
-    margin: auto;
+    margin: 10px auto;
     background-color: #F5F5F5;
     border-radius: 4px;
     padding: 5px;
@@ -44,8 +44,8 @@ const CrudButtons = styled.div`
 `;
 
 const ErrorSection = styled.div`
-    margin: auto;
-    width: 150px;
+    margin: 15px auto;
+    width: 180px;
     border: 5px red solid;
     background-color: #f59987;
     padding: 10px;
@@ -57,12 +57,7 @@ const FormContatos = (props) => {
 
     const { register, handleSubmit, formState: { errors, isSubmitted }, reset, setValue, getValues, setError } = useForm();
     const [options, setOptions] = useState([]);
-    const [fornecedorRef, setFornecedorRef] = useState({});
-
-    const submitFunctionality = async (data) => {
-        await insertContato(data);
-        reset();
-    };
+    // const [fornecedorRef, setFornecedorRef] = useState({});
 
     useEffect(() => {
 
@@ -88,64 +83,159 @@ const FormContatos = (props) => {
 
     }, []);
 
-    const handleNome = (e) => {
+    useEffect(() => {
 
-        setFornecedorRef(JSON.parse(e.target.value)["0"]);
+        const fillFields = async () => {
 
-        if (getValues("nome") === "Default") {
+            if (props.selectedData && !isSubmitted) {
+                const contato = await obtainContato(props.selectedData);
+                // document.querySelector(".selectNome").innerHTML = <option>{contato.nome}</option>;
+                // setValue("id", props.selectedData);
+                setValue("nome", '{"0": "' + contato.idFornecedor + '", "1": "' + contato.nome + '"}');
+                setValue("email", contato.email);
+                setValue("numero", contato.numero);
+                setValue("idFornecedor", contato.idFornecedor);
+                // console.log(getValues("nome"));
+            } else {
+                reset();
+            }
+
+        };
+
+        fillFields();
+
+
+    }, [props.selectedData]);
+
+    const validateContatos = () => {
+
+        ///// My own validations. /////
+
+        /* This way, I can control the flow of validations (how I want the tests to be done [its logic], and when).
+           Conditionals are stacked on top of each other so there's an else. */
+           
+        const [nome, email, numero] = [getValues("nome"), getValues("email"), getValues("numero")];
+        
+        // console.log(nome, email, numero);
+        // console.log(regexEmail.test(email), regexNumber.test(numero));
+
+        if (nome === "Default") {
+
             setError("nome", {
                 type: "Erro default: Nome não selecionado.",
                 message: "Nome do fornecedor não foi selecionado."
             });
+            
+        } else if (email === "" && numero === "") {
+
+            setError("email", {
+                type: "Erro: email e número vazios.",
+                message: "Pelo menos um email ou número de contato é obrigatório."
+            });
+
+        } else if (!regexEmail.test(email) && email !== "") {
+
+            setError("email", {
+                type: "Erro: email inválido.",
+                message: "Este email não é válido."
+            });
+
+            // minLength: (value) => value.length >= 5 || "Email tem que ter pelo menos 5 caracteres",
+            // maxLength: (value) => value.length <= 50 || "Email tem que ter pelo menos 50 caracteres",
+
+        } else if (!regexNumber.test(numero) && numero !== "") {
+
+            setError("numero", {
+                type: "Erro: número inválido.",
+                message: "Este número não é válido."
+            });
+
+            // minLength: (value) => value.length >= 8 || "Número tem que ter pelo menos 8 números",
+            // matchPattern: (value) => regexNumber.test(value) || "Número não é válido.",
+        } else {
+
+            return true;
+
         }
 
-    }
+        return false;
 
-    
+    };
+
+    const handleCreate = async (data) => {
+
+         if (validateContatos()) {
+            await insertContato(data);
+            props.setSelectedData(data.id);
+            // reset();
+        }
+
+    };
+
+    // const handleNome = (e) => {
+
+    //     const id = JSON.parse(e.target.value)["0"];
+
+    //     setFornecedorRef(id);
+
+    // };
+
+    const handleEdit = async () => {
+
+        if (props.selectedData) {
+
+            console.log(getValues());
+
+            const values = getValues();
+            // console.log(values);
+            values.id = props.selectedData;
+            // console.log(values);
+
+            await updateContato(values);
+            props.setSelectedData("");
+
+        } else {
+            console.log("Dado não selecionado para ser atualizado.");
+        }
+
+
+    };
+
+    const handleRemove = async () => {
+
+        if (props.selectedData) {
+            await removeContato(props.selectedData);
+            props.setSelectedData("");
+        } else {
+            console.log("Dado não selecionado para ser removido.");
+        }
+
+    };
 
     return (
         <div>
-            <Form onSubmit={handleSubmit(submitFunctionality)}>
+            <Form onSubmit={handleSubmit(handleCreate)}>
                 <label htmlFor="nome">
                     Nome:<br />
                     <select {...register("nome", {
                         required: "Nome é obrigatório",
-                        validate: {
-                            minLength: (value) => value.length >= 2 || "Nome tem que ter pelo menos 2 caracteres.",
-                            maxLength: (value) => value.length <= 50 || "Nome tem que ter pelo menos 2 caracteres.",
-                        },
-                        onChange: handleNome,
-                    })} defaultValue={"Default"}>
-                        <option value="Default" disabled >Selecione...</option>
+                    })} defaultValue={"Default"} className="selectNome">
+                        <option value="Default" disabled>Selecione...</option>
                         {options.map(item => item)}
                     </select>
                 </label>
                 <br />
                 <label htmlFor="email">
                     Email:<br />
-                    <input {...register("email", {
-                        required: "Email é obrigatório",
-                        validate: {
-                            minLength: (value) => value.length >= 2 || "Nome tem que ter pelo menos 2 caracteres",
-                            maxLength: (value) => value.length <= 50 || "Nome tem que ter pelo menos 2 caracteres",
-                            matchPattern: (value) => regexEmail.test(value) || "Email não é válido.",
-                        },
-                    })} />
+                    <input {...register("email")} />
                 </label>
                 <br />
                 <label htmlFor="numero">
                     Número:<br />
-                    <input {...register("numero", {
-                        required: "Número é obrigatório",
-                        validate: {
-                            minLength: (value) => value.length >= 2 || "Nome tem que ter pelo menos 2 caracteres",
-                            maxLength: (value) => value.length <= 50 || "Nome tem que ter pelo menos 2 caracteres",
-                            matchPattern: (value) => regexNumber.test(value) || "Número não é válido.",
-                        },
-                    })} />
+                    <input {...register("numero")} />
                 </label>
-                <label htmlFor="idFornecedor" style={{display: "none"}}>
-                    <input {...register("idFornecedor", { })} value={fornecedorRef} />
+                <label htmlFor="idFornecedor">
+                    <input {...register("idFornecedor")} type="hidden" />
                 </label>
                 <br />
                 <CrudButtons>
@@ -154,18 +244,18 @@ const FormContatos = (props) => {
                         <img src="./src/assets/add.svg" />
                     </label>
                     <label>
-                        <input type="button" value="Editar"/>
+                        <input type="button" value="Editar" onClick={handleEdit}/>
                         <img src="./src/assets/edit.svg" />
                     </label>
                     <label>
-                        <input type="button" value="Remover"/>
+                        <input type="button" value="Remover" onClick={handleRemove} />
                         <img src="./src/assets/remove.svg" />
                     </label>
                 </CrudButtons>
             </Form>
             <div>
                 {(errors.nome?.message) && (
-                    <ErrorSection>{errors.nome?.message}</ErrorSection>
+                    <ErrorSection>{errors.nome.message}</ErrorSection>
                 )}
                 {errors.email?.message && (
                     <ErrorSection>{errors.email.message}</ErrorSection>
