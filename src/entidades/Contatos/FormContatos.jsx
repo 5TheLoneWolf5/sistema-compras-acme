@@ -110,6 +110,7 @@ const FormContatos = (props) => {
                 // setValue("idFornecedor", contato.idFornecedor);
                 // console.log(getValues("nome"));
             } else {
+                props.setToggleClearRows(true);
                 reset(); // When selectedData is empty (unselected), the form is reset.
             }
 
