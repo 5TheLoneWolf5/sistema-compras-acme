@@ -110,7 +110,7 @@ const FormContatos = (props) => {
                 // setValue("idFornecedor", contato.idFornecedor);
                 // console.log(getValues("nome"));
             } else {
-                props.setToggleClearRows(true);
+                // props.setToggleClearRows(true); // Because it is in useEffect.
                 reset(); // When selectedData is empty (unselected), the form is reset.
             }
 
@@ -186,6 +186,7 @@ const FormContatos = (props) => {
             // props.setSelectedData(idFirebase);
             // reset();
             props.setSelectedData("");
+            props.setToggleClearRows(true);
         }
 
     };
@@ -211,6 +212,7 @@ const FormContatos = (props) => {
 
             await updateContato(values);
             props.setSelectedData("");
+            props.setToggleClearRows(true);
 
         } else {
             console.log("Dado não selecionado para ser atualizado.");
@@ -224,7 +226,7 @@ const FormContatos = (props) => {
         if (props.selectedData) {
             await removeContato(props.selectedData);
             props.setSelectedData("");
-            props.setActionDelete(true);
+            props.setToggleClearRows(true);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }

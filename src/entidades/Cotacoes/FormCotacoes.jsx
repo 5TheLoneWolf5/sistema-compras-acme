@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { insertContato, obtainContato, removeContato, updateContato } from "./CrudContatos";
+import { insertCotacao, obtainCotacao, removeCotacao, updateCotacao } from "./CrudCotacao";
 import { useEffect, useState } from "react";
+import { listProdutos } from "../Produtos/CrudProdutos";
 import { listFornecedores } from "../Fornecedores/CrudFornecedores";
 import { regexEmail, regexNumber } from "../../utils/regex";
 
@@ -53,21 +54,46 @@ const ErrorSection = styled.div`
     margin-top: 20px;
 `;
 
-const FormContatos = (props) => {
+const convertToUnix = (date) => {}
+
+
+
+;
+
+const FormCotacoes = (props) => {
 
     const { register, handleSubmit, formState: { errors, isSubmitted }, reset, setValue, getValues, setError } = useForm();
     const [options, setOptions] = useState([]);
+    const [optionsProdutos, setOptionsProdutos] = useState([]);
+    const [optionsFornecedores, setOptionsFornecedores] = useState([]);
     // const [fornecedorRef, setFornecedorRef] = useState({});
 
     useEffect(() => {
 
-        const generateOptions = async () => {
+        const generateProdutos = async () => {
+
+            const data = await listProdutos();
+            let result = [];
+    
+            for (let item in data) {
+                
+                result.push(<option value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["produto"] + '"}'} key={data[item]["id"]}>{data[item]["produto"]}</option>);
+                // console.log(result);
+            }
+    
+            // Object.keys(data).map((item, idx) => <option>{data[item]["nome"]}</option>);
+    
+            setOptions(result);
+    
+        };
+
+        const generateFornecedores = async () => {
 
             const data = await listFornecedores();
             let result = [];
     
             for (let item in data) {
-
+                
                 result.push(<option value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["nome"] + '"}'} key={data[item]["id"]}>{data[item]["nome"]}</option>);
                 // console.log(result);
             }
@@ -78,7 +104,8 @@ const FormContatos = (props) => {
     
         };
 
-        generateOptions();
+        generateProdutos();
+        generateFornecedores();
         // console.log(getValues());
 
     }, []);
@@ -99,17 +126,19 @@ const FormContatos = (props) => {
                 console.log("Criando dado - condição especial para criação de novos documentos.");
 
             } else if (props.selectedData && !isSubmitted) {
-                const contato = await obtainContato(props.selectedData);
+                const cotacao = await obtainCotacao(props.selectedData);
                 // document.querySelector(".selectNome").innerHTML = <option>{contato.nome}</option>;
 
                 // ID does not change or has a field. It continues to be the same, and the reference exists in the selectedData, retrieved from the Data Table (which gets data from firebase, but only renders the chosen fields).
                 // setValue("id", props.selectedData);
-                setValue("nome", '{"0": "' + contato.idFornecedor + '", "1": "' + contato.nome + '"}');
-                setValue("email", contato.email);
-                setValue("numero", contato.numero);
+                setValue("produto", '{"0": "' + cotacao.idProduto + '", "1": "' + cotacao.produto + '"}');
+                setValue("fornecedor", '{"0": "' + cotacao.idFornecedor + '", "1": "' + cotacao.nome + '"}');
+                setValue("preco", cotacao.preco);
+                setValue("dataCompra", cotacao.DataCompra);
                 // setValue("idFornecedor", contato.idFornecedor);
                 // console.log(getValues("nome"));
             } else {
+                // props.setToggleClearRows(true); // Because it is in useEffect.
                 reset(); // When selectedData is empty (unselected), the form is reset.
             }
 
@@ -117,54 +146,34 @@ const FormContatos = (props) => {
 
         fillFields();
 
-
     }, [props.selectedData]);
 
-    const validateContatos = () => {
+    const validateCotacoes = () => {
 
         ///// My own validations. /////
 
         /* This way, I can control the flow of validations (how I want the tests to be done [its logic], and when).
            Conditionals are stacked on top of each other so there's an else. */
            
-        const [nome, email, numero] = [getValues("nome"), getValues("email"), getValues("numero")];
+        const [produto, fornecedor, preco, dataCompra] = [getValues("produto"), getValues("fornecedor"), getValues("preco"), getValues("dataCompra")];
         
         // console.log(nome, email, numero);
         // console.log(regexEmail.test(email), regexNumber.test(numero));
 
-        if (nome === "Default") {
+        if (produto === "Default") {
 
-            setError("nome", {
-                type: "Erro default: Nome não selecionado.",
-                message: "Nome do fornecedor não foi selecionado."
+            setError("produto", {
+                type: "Erro default: Produto não selecionado.",
+                message: "Nome do produto não foi selecionado."
             });
             
-        } else if (email === "" && numero === "") {
+        } else if (fornecedor === "Default") {
 
-            setError("email", {
-                type: "Erro: email e número vazios.",
-                message: "Pelo menos um email ou número de contato é obrigatório."
+            setError("fornecedor", {
+                type: "Erro default: Fornecedor não selecionado.",
+                message: "Nome do fornecedor não foi selecionado."
             });
 
-        } else if (!regexEmail.test(email) && email !== "") {
-
-            setError("email", {
-                type: "Erro: email inválido.",
-                message: "Este email não é válido."
-            });
-
-            // minLength: (value) => value.length >= 5 || "Email tem que ter pelo menos 5 caracteres",
-            // maxLength: (value) => value.length <= 50 || "Email tem que ter pelo menos 50 caracteres",
-
-        } else if (!regexNumber.test(numero) && numero !== "") {
-
-            setError("numero", {
-                type: "Erro: número inválido.",
-                message: "Este número não é válido."
-            });
-
-            // minLength: (value) => value.length >= 8 || "Número tem que ter pelo menos 8 números",
-            // matchPattern: (value) => regexNumber.test(value) || "Número não é válido.",
         } else {
 
             return true;
@@ -177,14 +186,15 @@ const FormContatos = (props) => {
 
     const handleCreate = async (data) => {
 
-         if (validateContatos()) {
+         if (validateCotacoes()) {
             // Setting a value to selectedData so values get updated when the form data gets wiped out.
             props.setSelectedData("Criando...");
-            const idFirebase = await insertContato(data); // Obtaining the ID created by Firebase so the reference is not lost here.
+            const idFirebase = await insertCotacao(data); // Obtaining the ID created by Firebase so the reference is not lost here.
             // It would be used if render were forced regardless if selected is the same as before (this case is happening when document is created and then selected again);
             // props.setSelectedData(idFirebase);
             // reset();
             props.setSelectedData("");
+            props.setToggleClearRows(true);
         }
 
     };
@@ -208,8 +218,9 @@ const FormContatos = (props) => {
             values.id = props.selectedData;
             // console.log(values);
 
-            await updateContato(values);
+            await updateCotacao(values);
             props.setSelectedData("");
+            props.setToggleClearRows(true);
 
         } else {
             console.log("Dado não selecionado para ser atualizado.");
@@ -221,9 +232,9 @@ const FormContatos = (props) => {
     const handleRemove = async () => {
 
         if (props.selectedData) {
-            await removeContato(props.selectedData);
+            await removeCotacao(props.selectedData);
             props.setSelectedData("");
-            props.setActionDelete(true);
+            props.setToggleClearRows(true);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }
@@ -233,28 +244,37 @@ const FormContatos = (props) => {
     return (
         <div>
             <Form onSubmit={handleSubmit(handleCreate)}>
-                <label htmlFor="nome">
-                    Nome:<br />
-                    <select {...register("nome", {
-                        required: "Nome é obrigatório",
+                <label htmlFor="produto">
+                    Produto:<br />
+                    <select {...register("produto", {
+                        required: "Produto é obrigatório",
                     })} defaultValue={"Default"} className="selectNome">
                         <option value="Default" disabled>Selecione...</option>
                         {options.map(item => item)}
                     </select>
                 </label>
                 <br />
-                <label htmlFor="email">
-                    Email:<br />
-                    <input {...register("email")} />
+                <label htmlFor="fornecedor">
+                    Fornecedor:<br />
+                    <select {...register("fornecedor", {
+                        required: "Fornecedor é obrigatório",
+                    })} defaultValue={"Default"} className="selectNome">
+                        <option value="Default" disabled>Selecione...</option>
+                        {options.map(item => item)}
+                    </select>
                 </label>
                 <br />
-                <label htmlFor="numero">
-                    Número:<br />
-                    <input {...register("numero")} />
+                <label htmlFor="preco">
+                    Preço:<br />
+                    <input {...register("preco", {
+                        required: "Preço é obrigatório",
+                    })} />
                 </label>
-                {/* <label htmlFor="idFornecedor">
-                    <input {...register("idFornecedor")} type="hidden" />
-                </label> */}
+                <br />
+                <label htmlFor="dataCompra">
+                    Data de Compra:<br />
+                    <input {...register("dataCompra", { })} type="date" />
+                </label>
                 <br />
                 <CrudButtons>
                     <label>
@@ -272,14 +292,17 @@ const FormContatos = (props) => {
                 </CrudButtons>
             </Form>
             <div>
-                {(errors.nome?.message) && (
-                    <ErrorSection>{errors.nome.message}</ErrorSection>
+                {(errors.produto?.message) && (
+                    <ErrorSection>{errors.produto.message}</ErrorSection>
                 )}
-                {errors.email?.message && (
-                    <ErrorSection>{errors.email.message}</ErrorSection>
+                {errors.fornecedor?.message && (
+                    <ErrorSection>{errors.fornecedor.message}</ErrorSection>
                 )}
-                {errors.numero?.message && (
-                    <ErrorSection>{errors.numero.message}</ErrorSection>
+                {errors.preco?.message && (
+                    <ErrorSection>{errors.preco.message}</ErrorSection>
+                )}
+                {errors.dataCompra?.message && (
+                    <ErrorSection>{errors.dataCompra.message}</ErrorSection>
                 )}
             </div>
         </div>
@@ -287,4 +310,4 @@ const FormContatos = (props) => {
 
 };
 
-export default FormContatos;
+export default FormCotacoes;

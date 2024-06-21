@@ -14,18 +14,18 @@ const ListFornecedores = (props) => {
 
     const columns = [
         {
-            name: "Empresa",
-            selector: row => row.nome,
+            name: "Produto",
+            selector: row => row.produto,
             sortable: true,
         },
         {
-            name: "Nome da Pessoa",
-            selector: row => row.nomePessoa,
+            name: "Fornecedor",
+            selector: row => row.fornecedor,
             sortable: true,
         },
         {
-            name: "Setor",
-            selector: row => row.setor,
+            name: "Descrição",
+            selector: row => row.descricao,
             sortable: true,
         },
         

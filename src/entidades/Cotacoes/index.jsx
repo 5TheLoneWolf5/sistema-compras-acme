@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { listContatos } from "./CrudContatos";
-import FormContatos from "./FormContatos";
-import ListContatos from "./ListContatos";
+import { listCotacoes } from "./CrudCotacao";
+import FormCotacoes from "./FormCotacoes";
+import ListCotacoes from "./ListCotacoes";
 
-const Contatos = (props) => {
+const Cotacao = (props) => {
 
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
-    const [actionDelete, setActionDelete] = useState(false);
+    const [toggledClearRows, setToggleClearRows] = useState(false);
 
     useEffect(() => {
 
         const fetchData = async () => {
-            setData(await listContatos());
+            setData(await listCotacoes());
             // console.log("Fresh data.");
         };
 
@@ -24,13 +24,12 @@ const Contatos = (props) => {
 
     return (
         <>
-            <h1>Registrar e Ler Contatos de Fornecedores</h1>
-            <p>Caso queira, é possível adicionar apenas o email ou o número de contato em uma única entrada, mas é <strong>obrigatório</strong> a existência de um ponto de contato.</p>
-            <FormContatos selectedData={selectedData} setSelectedData={setSelectedData} setActionDelete={setActionDelete} />
-            <ListContatos setSelectedData={setSelectedData} data={data} actionDelete={actionDelete} />
+            <h1>Registrar e Ler Cotações de Produtos</h1>
+            <FormCotacoes selectedData={selectedData} setSelectedData={setSelectedData} setToggleClearRows={setToggleClearRows} />
+            <ListCotacoes setSelectedData={setSelectedData} data={data} toggledClearRows={toggledClearRows} />
         </>
     );
 
 };
 
-export default Contatos;
+export default Cotacao;

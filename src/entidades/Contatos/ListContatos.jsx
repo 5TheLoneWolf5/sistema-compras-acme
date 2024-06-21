@@ -4,6 +4,10 @@ const ListContatos = (props) => {
 
     const handleSelected = ({ selectedRows }) => {
 
+        if (props.toggledClearRows) {
+            props.setToggleClearRows(false);
+        }
+
         // console.log(props.data);
         const idLastSelected = selectedRows[0]?.id;
 
@@ -11,6 +15,8 @@ const ListContatos = (props) => {
         // console.log(idLastSelected);
 
     };
+
+    // Data getting sent as string in program.
 
     const columns = [
         {

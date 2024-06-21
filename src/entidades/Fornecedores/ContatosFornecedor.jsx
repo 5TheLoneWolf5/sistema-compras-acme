@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { listContatos } from "../Contatos/CrudContatos";
 import styled from "styled-components";
-import { obtainFornecedor } from "./CrudFornecedores";
 
 const Column = styled.aside`
 
@@ -68,7 +67,7 @@ const ContatosFornecedor = (props) => {
 
         generateContatos();
 
-    }, []);
+    }, [props.selectedData]); // So it updates even when between different values.
 
     // useEffect(() => {
 

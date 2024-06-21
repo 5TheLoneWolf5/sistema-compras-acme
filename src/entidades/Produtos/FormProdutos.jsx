@@ -125,7 +125,7 @@ const FormFornecedores = (props) => {
             props.setSelectedData("Criando...");
             const idFirebase = await insertFornecedor(data); // If ID is needed.
             props.setSelectedData("");
-
+            props.setToggleClearRows(true);
         }
 
     };
@@ -143,6 +143,7 @@ const FormFornecedores = (props) => {
 
             await updateFornecedor(values);
             props.setSelectedData("");
+            props.setToggleClearRows(true);
 
         } else {
             console.log("Dado não selecionado para ser atualizado.");
@@ -156,7 +157,7 @@ const FormFornecedores = (props) => {
         if (props.selectedData) {
             await removeFornecedor(props.selectedData);
             props.setSelectedData("");
-            props.setActionDelete(true);
+            props.setToggleClearRows(true);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }

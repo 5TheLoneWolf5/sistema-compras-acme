@@ -1,31 +1,48 @@
 import DataTable from "react-data-table-component";
 
-const ListFornecedores = (props) => {
+const ListCotacoes = (props) => {
 
     const handleSelected = ({ selectedRows }) => {
 
-        props.setSelectedNome(selectedRows[0]?.nome);
+        if (props.toggledClearRows) {
+            props.setToggleClearRows(false);
+        }
 
+        // console.log(props.data);
         const idLastSelected = selectedRows[0]?.id;
 
         idLastSelected ? props.setSelectedData(idLastSelected) : props.setSelectedData("");
+        // console.log(idLastSelected);
+
+    };
+
+    const formatDate = (date) => {
+        
+        const unixTime = new Date(date * 1000);
+
+        return `${unixTime.getDate()}:${unixTime.getMonth() + 1}:${unixTime.getFullYear()} (${unixTime.getHours}:${unixTime.getMinutes}:${unixTime.getSeconds})`;
 
     };
 
     const columns = [
         {
-            name: "Empresa",
-            selector: row => row.nome,
+            name: "Produto",
+            selector: row => row.produto,
             sortable: true,
         },
         {
-            name: "Nome da Pessoa",
-            selector: row => row.nomePessoa,
+            name: "Fornecedor",
+            selector: row => row.fornecedor,
             sortable: true,
         },
         {
-            name: "Setor",
-            selector: row => row.setor,
+            name: "Preço",
+            selector: row => row.preco,
+            sortable: true,
+        },
+        {
+            name: "Data da Compra",
+            selector: row => formatDate(row.dataCompra),
             sortable: true,
         },
         
@@ -50,11 +67,10 @@ const ListFornecedores = (props) => {
                 selectableRowsSingle
                 clearSelectedRows={props.toggledClearRows}
                 onSelectedRowsChange={handleSelected}
-                className="dataTable"
              />
         </>
     );
 
 };
 
-export default ListFornecedores;
+export default ListCotacoes;

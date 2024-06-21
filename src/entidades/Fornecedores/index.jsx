@@ -1,4 +1,4 @@
-import { act, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ContatosFornecedor from "./ContatosFornecedor";
 import FormFornecedores from "./FormFornecedores";
 import ListFornecedores from "./ListFornecedores";
@@ -22,8 +22,8 @@ const Fornecedores = (props) => {
 
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
+    const [toggledClearRows, setToggleClearRows] = useState(false);
     const [selectedNome, setSelectedNome] = useState("");
-    const [actionDelete, setActionDelete] = useState(false);
 
     useEffect(() => {
 
@@ -36,6 +36,7 @@ const Fornecedores = (props) => {
         // console.log(data);
 
         fetchData();
+        console.log(toggledClearRows);
 
     }, [selectedData]);
 
@@ -44,10 +45,10 @@ const Fornecedores = (props) => {
             <h1>Registrar e Ler Fornecedores</h1>
             <p>Você pode selecionar um fornecedor na tabela para obter seus pontos de contato.</p>
             <Main>
-                <FormFornecedores selectedData={selectedData} setSelectedData={setSelectedData} setActionDelete={setActionDelete} />
+                <FormFornecedores selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
                 {(selectedData && selectedData != "Criando...") && <ContatosFornecedor selectedData={selectedData} selectedNome={selectedNome} />}
             </Main>
-                <ListFornecedores setSelectedData={setSelectedData} data={data} setSelectedNome={setSelectedNome} actionDelete={actionDelete} />
+                <ListFornecedores setSelectedData={setSelectedData} data={data} toggledClearRows={toggledClearRows} setToggleClearRows={setToggleClearRows} setSelectedNome={setSelectedNome} />
         </Container>
     );
 
