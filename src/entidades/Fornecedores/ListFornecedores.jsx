@@ -1,46 +1,31 @@
 import { useRef } from "react";
 import DataTable from "react-data-table-component";
 
-const ListContatos = (props) => {
+const ListFornecedores = (props) => {
 
     const onlyLastSelected = useRef({});
     const undesiredData = useRef({});
 
     const handleSelected = ({ selectedRows }) => {
 
-        // // console.log(props.data);
-
-        // console.log(selectedRows);
-
         if (selectedRows.length > 1) {
-            onlyLastSelected.current = selectedRows[0]; // Data is unshifted to the array, not pushed, so latest value is the first one.
+            onlyLastSelected.current = selectedRows[0];
             undesiredData.current = selectedRows[1];
-            // console.log(selectedRows[0]);
-            // console.log("Selected undesired data: " + selectedRows[1]);
-            selectedRows = new Array(onlyLastSelected.current); // I can't use state here, because the code needs to wait for the render.
+            selectedRows = new Array(onlyLastSelected.current);
         }
 
-        // console.log(onlyLastSelected.current.nome, undesiredData.current.nome, selectedRows[0]?.nome, selectedRows.length);
-        // console.log(Object.hasOwn(undesiredData.current, "id"));
+        props.setSelectedNome(selectedRows[0]?.nome);
         
-        if (Object.hasOwn(undesiredData.current, "id") && (undesiredData.current?.id === selectedRows[0]?.id) && props.actionDelete) { // Edge cases for when every row is unselected and stale data is not deleted from the object. Checking if it is filled first.
+        if (Object.hasOwn(undesiredData.current, "id") && (undesiredData.current?.id === selectedRows[0]?.id) && props.actionDelete) {
             
-            // Object.hasOwn(undesiredData.current, "id") may not be needed.
-
             console.log("Undesired data is lurking around. Changing the code flow so past selected data doesn't get in the mix. React Data Table issue: deleted data doesn't get unselected and lurks around.");
-            props.setSelectedData(""); // In case there's data still selected.
+            props.setSelectedData("");
 
         } else {
-
-            // console.log("Undesired data: " + undesiredData.current);
-
-            // console.log(selectedRows[0]?.id);
 
             const idLastSelected = selectedRows[0]?.id;
 
             idLastSelected ? props.setSelectedData(idLastSelected) : props.setSelectedData("");
-
-            // console.log(idLastSelected);
 
         }
 
@@ -48,18 +33,18 @@ const ListContatos = (props) => {
 
     const columns = [
         {
-            name: "Nome",
+            name: "Empresa",
             selector: row => row.nome,
             sortable: true,
         },
         {
-            name: "Email",
-            selector: row => row.email,
+            name: "Nome da Pessoa",
+            selector: row => row.nomePessoa,
             sortable: true,
         },
         {
-            name: "Número",
-            selector: row => row.numero,
+            name: "Setor",
+            selector: row => row.setor,
             sortable: true,
         },
         
@@ -82,10 +67,11 @@ const ListContatos = (props) => {
                 selectableRowsHighlight
                 selectableSingle
                 onSelectedRowsChange={handleSelected}
+                className="dataTable"
              />
         </>
     );
 
 };
 
-export default ListContatos;
+export default ListFornecedores;

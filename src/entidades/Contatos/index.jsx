@@ -8,7 +8,6 @@ const Contatos = (props) => {
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
     const [actionDelete, setActionDelete] = useState(false);
-    const [toggledClearRows, setToggleClearRows] = useState(false);
 
     useEffect(() => {
 
@@ -27,8 +26,8 @@ const Contatos = (props) => {
         <>
             <h1>Registrar e Ler Contatos de Fornecedores</h1>
             <p>Caso queira, é possível adicionar apenas o email ou o número de contato em uma única entrada, mas é <strong>obrigatório</strong> a existência de um ponto de contato.</p>
-            <FormContatos selectedData={selectedData} setSelectedData={setSelectedData} setActionDelete={setActionDelete} setToggleClearRows={setToggleClearRows} />
-            <ListContatos setSelectedData={setSelectedData} data={data} actionDelete={actionDelete} toggledClearRows={toggledClearRows} />
+            <FormContatos selectedData={selectedData} setSelectedData={setSelectedData} setActionDelete={setActionDelete} />
+            <ListContatos setSelectedData={setSelectedData} data={data} actionDelete={actionDelete} />
         </>
     );
 
