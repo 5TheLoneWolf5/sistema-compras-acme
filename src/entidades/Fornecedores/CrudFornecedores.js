@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../utils/auth";
 
 export async function insertFornecedor(fornecedor) {
@@ -32,9 +32,9 @@ export async function obtainFornecedor(id) {
 
 };
 
-export async function remoteFornecedor(id) {
+export async function removeFornecedor(id) {
 
-    await deleteDoc(doc(db, "fornecedores"), id);
+    await deleteDoc(doc(db, "fornecedores", id));
 
 };
 

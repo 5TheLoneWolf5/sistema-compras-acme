@@ -87,17 +87,31 @@ const FormContatos = (props) => {
 
         const fillFields = async () => {
 
-            if (props.selectedData && !isSubmitted) {
+            /* Since I'm retrieving data from the server, it's important to note:
+            - Input fields have no ID. This is generated automatically by firebase in the server. Which means that, when edited, the fields themselves don't have a reference to that specific row. This only happens because of the ID brought by the selection in the data table.
+            - The value "nome" automatically selects the correct option because the value set shares the same data.
+            - React Data Table gets its data directly from firebase, which means it has access to the ID field and all the others. */
+
+            // console.log(props.selectedData, isSubmitted);
+
+            if (props.selectedData === "Criando...") {
+
+                console.log("Criando dado - condição especial para criação de novos documentos.");
+
+            } else if (props.selectedData && !isSubmitted) {
                 const contato = await obtainContato(props.selectedData);
                 // document.querySelector(".selectNome").innerHTML = <option>{contato.nome}</option>;
+
+                // ID does not change or has a field. It continues to be the same, and the reference exists in the selectedData, retrieved from the Data Table (which gets data from firebase, but only renders the chosen fields).
                 // setValue("id", props.selectedData);
                 setValue("nome", '{"0": "' + contato.idFornecedor + '", "1": "' + contato.nome + '"}');
                 setValue("email", contato.email);
                 setValue("numero", contato.numero);
-                setValue("idFornecedor", contato.idFornecedor);
+                // setValue("idFornecedor", contato.idFornecedor);
                 // console.log(getValues("nome"));
             } else {
-                reset();
+                props.setToggleClearRows(true);
+                reset(); // When selectedData is empty (unselected), the form is reset.
             }
 
         };
@@ -165,9 +179,13 @@ const FormContatos = (props) => {
     const handleCreate = async (data) => {
 
          if (validateContatos()) {
-            await insertContato(data);
-            props.setSelectedData(data.id);
+            // Setting a value to selectedData so values get updated when the form data gets wiped out.
+            props.setSelectedData("Criando...");
+            const idFirebase = await insertContato(data); // Obtaining the ID created by Firebase so the reference is not lost here.
+            // It would be used if render were forced regardless if selected is the same as before (this case is happening when document is created and then selected again);
+            // props.setSelectedData(idFirebase);
             // reset();
+            props.setSelectedData("");
         }
 
     };
@@ -184,7 +202,7 @@ const FormContatos = (props) => {
 
         if (props.selectedData) {
 
-            console.log(getValues());
+            // console.log(getValues());
 
             const values = getValues();
             // console.log(values);
@@ -206,6 +224,7 @@ const FormContatos = (props) => {
         if (props.selectedData) {
             await removeContato(props.selectedData);
             props.setSelectedData("");
+            props.setActionDelete(true);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }
@@ -234,9 +253,9 @@ const FormContatos = (props) => {
                     Número:<br />
                     <input {...register("numero")} />
                 </label>
-                <label htmlFor="idFornecedor">
+                {/* <label htmlFor="idFornecedor">
                     <input {...register("idFornecedor")} type="hidden" />
-                </label>
+                </label> */}
                 <br />
                 <CrudButtons>
                     <label>

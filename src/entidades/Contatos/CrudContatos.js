@@ -16,6 +16,8 @@ export async function insertContato(contato) {
 
     contato = sanitizeContato(contato);
     
+    // console.log(contato);
+    
     const docRef = await addDoc(collection(db, "contatos"), contato);
     return docRef.id;
 
@@ -36,8 +38,10 @@ export async function listContatos() {
 
 export async function obtainContato(id) {
 
-    const docRef = doc(db, "contatos", id);
-    const docSnap = await getDoc(docRef);
+    const docRef = doc(db, "contatos", id); // Only its reference, but not the snap, data itself.
+    // console.log(docRef);
+    const docSnap = await getDoc(docRef); // Only its reference.
+    // console.log(docSnap);
 
     return docSnap.data();
 
