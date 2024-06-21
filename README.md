@@ -12,10 +12,10 @@ exportará cotações em CSV.
 O objetivo principal da aplicação é disponibilizar o gerenciamento de compras para a
 empresa fictícia ACME. Para isso, a aplicação tem uma interface agradável, intuitiva e ser
 responsiva e funcional. O escopo do projeto será escalável e adaptável ao volume de
-compras realizadas. Também possuirá:
+compras realizadas. Também possui/possuirá:
 
 * Responsividade, suporte ao mobile e implementação de user gestures.
 * Autenticação e autorização.
 * Implementação em ReactJS e React Native junto do Firebase.
 
-:exclamation: Há um video presente no repositório com o nome de "amostra" que demonstra a utilização da aplicação. :exclamation:
+> :exclamation: Há um video presente no repositório com o título de *amostra* que demonstra a utilização da aplicação.
