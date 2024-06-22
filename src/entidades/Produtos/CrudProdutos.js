@@ -1,7 +1,18 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../utils/auth";
 
+// const sanitizeProduto = (produto) => {
+    
+//     produto.idFornecedor = JSON.parse(produto.fornecedor)["0"];
+//     produto.fornecedor = JSON.parse(produto.fornecedor)["1"];
+
+//     return produto;
+
+// };
+
 export async function insertProduto(produto) {
+
+    // produto = sanitizeProduto(produto);
 
     const docRef = await addDoc(collection(db, "produtos"), produto);
     return docRef.id;
@@ -40,6 +51,8 @@ export async function removeProduto(id) {
 
 export async function updateProduto(produto) {
 
-    await setDoc(doc(db, "produtos", contato.id), produto);
+    // produto = sanitizeProduto(produto);
+
+    await setDoc(doc(db, "produtos", produto.id), produto);
 
 };

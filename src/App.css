@@ -5,10 +5,17 @@
 
 html, body, #root {
     scroll-behavior: smooth;
-    overflow-x: hidden;
     max-width: 100%;
     margin: 2px;
     padding: 0px;
+}
+
+.bodyScrollX {
+    overflow-x: hidden;
+}
+
+.removeScroll {
+    overflow-y: hidden;
 }
 
 #header-and-main {
@@ -49,6 +56,17 @@ html, body, #root {
 
 .linksNav:active {
     background-color: #1f1f1f;
+}
+
+.textAreaDescricao {
+    resize: vertical;
+    max-height: 480px;
+    min-height: 80px;
+}
+
+::-webkit-resizer {
+    background-color: #d3d3d3;
+    border-top-left-radius: 5px;
 }
 
 @media (max-width: 330px) {

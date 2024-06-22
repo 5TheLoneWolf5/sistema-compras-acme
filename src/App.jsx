@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Carregando, Contatos, Cotacoes, Fornecedores, Home, Navbar, Produtos, Rodape } from "./entidades";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 
 
 const sizes = {
@@ -23,9 +23,9 @@ function App() {
             <Navbar sizes={sizes} />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="produtos" element={<Produtos />} />
+              <Route path="produtos" element={<Produtos sizes={sizes} />} />
               <Route path="cotacoes" element={<Cotacoes />} />
-              <Route path="fornecedores" element={<Fornecedores />} />
+              <Route path="fornecedores" element={<Fornecedores sizes={sizes} />} />
               <Route path="contatos" element={<Contatos />} />
             </Routes>
           </Suspense>

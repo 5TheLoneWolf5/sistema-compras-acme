@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { listContatos } from "../Contatos/CrudContatos";
 import styled from "styled-components";
+import { listCotacoes } from "../Cotacoes/CrudCotacao";
+import { formatDate } from "../../utils/functions";
 
 const Column = styled.aside`
 
@@ -10,7 +11,7 @@ const Column = styled.aside`
     border: 1px solid black;
     padding: 10px;
     height: fit-content;
-    margin-right: 10px;
+    margin: 0 10px;
 
 `;
 
@@ -21,32 +22,32 @@ const Item = styled.aside`
 
 `;
 
-const ContatoTitle = styled.h3`
+const CotacaoTitle = styled.h3`
 
 
 `;
 
-const ContatosFornecedor = (props) => {
+const CotacoesProduto = (props) => {
 
-    const [contatos, setContatos] = useState([]);
-    // const [nomeFornecedor, setNomeFornecedor] = useState("");
+    const [cotacoes, setCotacoes] = useState([]);
 
     useEffect(() => {
 
-        const generateContatos = async () => {
+        const generateCotacoes = async () => {
 
-            const data = await listContatos();
+            const data = await listCotacoes();
             let result = [];
             let count = 0;
 
             for (let item in data) {
 
-                if (props.selectedData === data[item]["idFornecedor"]) {
+                if (props.selectedData === data[item]["idProduto"]) {
                     result.push(
                         <Item key={count}>
-                            <ContatoTitle>Contato {++count}</ContatoTitle>
-                            <p>Email: {data[item]["email"]}</p>
-                            <p>Número: {data[item]["numero"]}</p>
+                            <CotacaoTitle>Produto {++count}</CotacaoTitle>
+                            {/* <p>Fornecedor: {data[item]["fornecedor"]}</p> */}
+                            <p>Preço: {data[item]["preco"]}</p>
+                            <p>Data da Compra: {formatDate(data[item]["dataCompra"])}</p>
                             <hr />
                         </Item>,);
                 }
@@ -56,39 +57,26 @@ const ContatosFornecedor = (props) => {
             // console.log(result);
 
             if (result.length !== 0) {
-                setContatos(result);
+                setCotacoes(result);
             } else {
-                setContatos([<p key={0}>Não há contatos.</p>]);
+                setCotacoes([<p key={0}>Não há cotações.</p>]);
             }
 
             // console.log(result);
     
         };
 
-        generateContatos();
+        generateCotacoes();
 
     }, [props.selectedData]); // So it updates even when between different values.
 
-    // useEffect(() => {
-
-    //     const getNome = async () => {
-
-    //         obtainFornecedor(props.selectedData)
-    //         .then((data) => setNomeFornecedor(data["nome"]));
-        
-    //     };
-
-    //     getNome();
-
-    // }, []);
-
     return (
         <Column>
-            <h2>Contato(s) do Fornecedor <u>{props.selectedNome}</u></h2>
-            {contatos.map(item => item)}
+            <h2>Cotações(s) do Produto <u>{props.selectedProduto}</u></h2>
+            {cotacoes.map(item => item)}
         </Column>
     );
 
 };
 
-export default ContatosFornecedor;
+export default CotacoesProduto;

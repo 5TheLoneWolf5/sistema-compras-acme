@@ -7,6 +7,10 @@ const sanitizeContato = (contato) => {
     // console.log(contato.id, contato.nome);
     contato.idFornecedor = JSON.parse(contato.nome)["0"];
     contato.nome = JSON.parse(contato.nome)["1"];
+    
+    if (contato.numero) {
+        contato.numero = Number(contato.numero); // If it is empty, it goes as empty to the DB, instead of a zero.
+    }
 
     return contato;
 

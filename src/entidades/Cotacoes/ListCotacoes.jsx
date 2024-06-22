@@ -1,26 +1,19 @@
 import DataTable from "react-data-table-component";
+import { formatDate } from "../../utils/functions";
 
 const ListCotacoes = (props) => {
 
     const handleSelected = ({ selectedRows }) => {
 
-        if (props.toggledClearRows) {
-            props.setToggleClearRows(false);
-        }
+        // if (props.toggledClearRows) {
+        //     props.setToggleClearRows(false);
+        // }
 
         // console.log(props.data);
         const idLastSelected = selectedRows[0]?.id;
 
         idLastSelected ? props.setSelectedData(idLastSelected) : props.setSelectedData("");
         // console.log(idLastSelected);
-
-    };
-
-    const formatDate = (date) => {
-        
-        const unixTime = new Date(date * 1000);
-
-        return `${unixTime.getDate()}:${unixTime.getMonth() + 1}:${unixTime.getFullYear()} (${unixTime.getHours}:${unixTime.getMinutes}:${unixTime.getSeconds})`;
 
     };
 
@@ -55,7 +48,7 @@ const ListCotacoes = (props) => {
                 data={props.data}
                 pagination
                 paginationPerPage={10}
-                dense
+                // dense
                 responsive
                 striped
                 noDataComponent="Sem dados."

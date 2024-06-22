@@ -70,6 +70,12 @@ const Blackspace = styled.div`
     top: 0;
     bottom: 0;
     cursor: pointer;
+
+    html {
+        overflow-y: hidden;
+    }
+
+
     @media (min-width: ${(props) => props.sizes.small}) {
         display: none;
     }
@@ -91,15 +97,49 @@ const Navbar = (props) => {
     const [toggleMenu, setToggleMenu] = useState(false);
     // const screenSize = window.matchMedia(`(min-width: ${props.sizes.small})`).matches;
     const [screenSize, setScreenSize] = useState(window.matchMedia(`(min-width: ${props.sizes.small})`).matches);
+    const [wasMenu, setWasMenu] = useState(false);
 
     useEffect(() => {
         
+        document.body.classList.remove("bodyScrollX");
+        document.body.classList.add("removeScroll");
+
         window.matchMedia(`(min-width: ${props.sizes.small})`).addEventListener("change", e => setScreenSize(e.matches));
         setToggleMenu(false);
 
     }, []);
 
-    const handleMenu = () => { if (!toggleMenu) setToggleMenu(true); else setToggleMenu(false) };
+    useEffect(() => {
+        
+        if (toggleMenu && wasMenu) {
+
+            document.body.classList.remove("bodyScrollX");
+            document.body.classList.add("removeScroll");
+
+        } else {
+
+            document.body.classList.add("bodyScrollX");
+            document.body.classList.remove("removeScroll");
+
+        }
+
+    }, [toggleMenu]);
+
+    const handleMenu = (e) => { 
+        
+        // console.log(e.target.id);
+        e.target.id === "menu" ? setWasMenu(true) : setWasMenu(false);
+
+        if (!toggleMenu) {
+        
+        setToggleMenu(true);
+
+    } else {
+
+        setToggleMenu(false);
+
+    }
+    };
     
     return (
         <>
@@ -109,7 +149,7 @@ const Navbar = (props) => {
                     <Title className="title">ACME</Title>
                 </Link>
                 <div className="imgsHeader">
-                <Menu id="menu" onClick={handleMenu} src="/src/assets/menu.svg" sizes={props.sizes} />
+                    <Menu id="menu" onClick={handleMenu} src="/src/assets/menu.svg" sizes={props.sizes} />
                 </div>
                 {(toggleMenu || screenSize) && <>
                     <Blackspace onClick={handleMenu} sizes={props.sizes} />

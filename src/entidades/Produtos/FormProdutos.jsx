@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useEffect } from "react";
-import { insertFornecedor, obtainFornecedor, removeFornecedor, updateFornecedor } from "./CrudFornecedores";
+import { useEffect, useState } from "react";
+import { insertProduto, obtainProduto, removeProduto, updateProduto } from "./CrudProdutos";
+import { listFornecedores } from "../Fornecedores/CrudFornecedores";
 
 const Form = styled.form`
     width: 250px;
@@ -51,9 +52,33 @@ const ErrorSection = styled.div`
     margin-top: 20px;
 `;
 
-const FormFornecedores = (props) => {
+const FormProdutos = (props) => {
 
     const { register, handleSubmit, formState: { errors, isSubmitted }, reset, setValue, getValues, setError } = useForm();
+    // const [optionsFornecedores, setOptionsFornecedores] = useState([]);
+
+    // useEffect(() => {
+
+    //     const generateFornecedores = async () => {
+
+    //         const data = await listFornecedores();
+    //         let result = [];
+    
+    //         for (let item in data) {
+                
+    //             result.push(<option value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["nome"] + '"}'} key={data[item]["id"]}>{data[item]["nome"]}</option>);
+    //             // console.log(result);
+    //         }
+    
+    //         // Object.keys(data).map((item, idx) => <option>{data[item]["nome"]}</option>);
+
+    //         setOptionsFornecedores(result);
+    
+    //     };
+
+    //     generateFornecedores();
+
+    // }, []);
 
     useEffect(() => {
 
@@ -73,10 +98,10 @@ const FormFornecedores = (props) => {
             }
             else if (props.selectedData && !isSubmitted) {
 
-                const fornecedor = await obtainFornecedor(props.selectedData);
-                setValue("nome", fornecedor.nome);
-                setValue("nomePessoa", fornecedor.nomePessoa);
-                setValue("setor", fornecedor.setor);
+                const produto = await obtainProduto(props.selectedData);
+                setValue("produto", produto.produto);
+                // setValue("fornecedor", '{"0": "' + produto.idFornecedor + '", "1": "' + produto.fornecedor + '"}');
+                setValue("descricao", produto.descricao);
 
             } else {
                 reset();
@@ -89,25 +114,17 @@ const FormFornecedores = (props) => {
 
     }, [props.selectedData]);
 
-    const validateFornecedores = () => {
+    const validateProdutos = () => {
            
-        const setor = getValues("setor");
-        const nomePessoa = getValues("nomePessoa");
+        const fornecedor = getValues("fornecedor");
 
-        if (setor === "Default") {
+        if (fornecedor === "Default") {
 
             setError("setor", {
-                type: "Erro default: Setor não selecionado.",
-                message: "Setor não foi selecionado."
+                type: "Erro default: Fornecedor não selecionado.",
+                message: "Fornecedor não foi selecionado."
             });
             
-        } else if (!(nomePessoa.length >= 2 && nomePessoa.length <= 30) && nomePessoa !== "") {
-
-            setError("nomePessoa", {
-                type: "Erro:  Campo nome da pessoa é inválido.",
-                message: "O campo nome da pessoa não é válido. Deve ter pelo menos mais ou o mesmo que 2 caracteres e ir até ou igual 30 a caracteres."
-            });
-
         } else {
 
             return true;
@@ -120,12 +137,12 @@ const FormFornecedores = (props) => {
 
     const handleCreate = async (data) => {
 
-         if (validateFornecedores()) {
+         if (validateProdutos()) {
 
             props.setSelectedData("Criando...");
-            const idFirebase = await insertFornecedor(data); // If ID is needed.
+            const idFirebase = await insertProduto(data); // If ID is needed.
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            // props.setToggleClearRows(true);
         }
 
     };
@@ -141,7 +158,7 @@ const FormFornecedores = (props) => {
             values.id = props.selectedData;
             // console.log(values);
 
-            await updateFornecedor(values);
+            await updateProduto(values);
             props.setSelectedData("");
             props.setToggleClearRows(true);
 
@@ -155,9 +172,9 @@ const FormFornecedores = (props) => {
     const handleRemove = async () => {
 
         if (props.selectedData) {
-            await removeFornecedor(props.selectedData);
+            await removeProduto(props.selectedData);
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            // props.setToggleClearRows(true);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }
@@ -167,36 +184,36 @@ const FormFornecedores = (props) => {
     return (
         <div style={{flexGrow: "1"}}>
             <Form onSubmit={handleSubmit(handleCreate)}>
-                <label htmlFor="nome">
-                    Nome da Empresa:<br />
-                    <input {...register("nome", {
-                    required: "Nome da empresa é obrigatório.", 
+                <label htmlFor="produto">
+                    Produto:<br />
+                    <input {...register("produto", {
+                    required: "Nome do produto é obrigatório.", 
                     validate: {
-                        minLength: (value) => value.length >= 2 || "O campo nome da empresa não é válido. Deve ter pelo menos mais de 2 caracteres.",
-                        maxLength: (value) => value.length <= 50 || "O campo nome da empresa não é válido. Deve ter 50 ou menos caracteres.",
-                    }})} maxLength={50} />
+                        minLength: (value) => value.length >= 2 || "O campo nome do produto não é válido. Deve ter pelo menos mais de 1 caracteres.",
+                        maxLength: (value) => value.length <= 100 || "O campo nome do produto não é válido. Deve ter 100 ou menos caracteres.",
+                    }})} maxLength={100} />
                 </label>
                 <br />
-                <label htmlFor="nomePessoa">
-                    Nome da Pessoa:<br />
-                    <input {...register("nomePessoa")} maxLength={30} />
-                </label>
-                <br />
-                <label htmlFor="setor">
-                    Setor:<br />
-                    <select defaultValue={"Default"} {...register("setor")}>
+                {/* <label htmlFor="fornecedor">
+                    Fornecedor:<br />
+                    <select defaultValue={"Default"} {...register("fornecedor", {
+                        required: "Fornecedor é obrigatório.",
+                    })}>
                         <option value="Default" disabled>Selecione...</option>
-                        <option value="Hardware">Hardware</option>
-                        <option value="Software">Software</option>
-                        <option value="Móveis">Móveis</option>
-                        <option value="Decoração">Decoração</option>
-                        <option value="Papelaria">Papelaria</option>
-                        <option value="Limpeza">Limpeza</option>
-                        <option value="Outro">Outro</option>
+                        {optionsFornecedores}
                     </select>
                 </label>
-
+                <br /> */}
+                <label htmlFor="descricao">
+                    Descrição:<br />
+                    <textarea {...register("descricao", {
+                        validate: {
+                            maxLength: (value) => value.length <= 1000 || "O campo descrição não é válido. Deve ter 1000 ou menos caracteres.",
+                        }
+                    })} maxLength={1000} className="textAreaDescricao" type="textarea" />
+                </label>
                 <br />
+
                 <CrudButtons>
                     <label>
                         <input type="submit" value="Criar" size={100} />
@@ -213,14 +230,14 @@ const FormFornecedores = (props) => {
                 </CrudButtons>
             </Form>
             <div>
-                {(errors.nome?.message) && (
-                    <ErrorSection>{errors.nome.message}</ErrorSection>
+                {(errors.produto?.message) && (
+                    <ErrorSection>{errors.produto.message}</ErrorSection>
                 )}
-                {errors.nomePessoa?.message && (
-                    <ErrorSection>{errors.nomePessoa.message}</ErrorSection>
-                )}
-                {errors.setor?.message && (
-                    <ErrorSection>{errors.setor.message}</ErrorSection>
+                {/* {errors.fornecedor?.message && (
+                    <ErrorSection>{errors.fornecedor.message}</ErrorSection>
+                )} */}
+                {errors.descricao?.message && (
+                    <ErrorSection>{errors.descricao.message}</ErrorSection>
                 )}
             </div>
         </div>
@@ -228,4 +245,4 @@ const FormFornecedores = (props) => {
 
 };
 
-export default FormFornecedores;
+export default FormProdutos;

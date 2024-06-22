@@ -4,6 +4,10 @@ const ListFornecedores = (props) => {
 
     const handleSelected = ({ selectedRows }) => {
 
+        // if (props.toggledClearRows) {
+        //     props.setToggleClearRows(false);
+        // }
+
         props.setSelectedNome(selectedRows[0]?.nome);
 
         const idLastSelected = selectedRows[0]?.id;
@@ -14,7 +18,7 @@ const ListFornecedores = (props) => {
 
     const columns = [
         {
-            name: "Empresa",
+            name: "Nome da Empresa",
             selector: row => row.nome,
             sortable: true,
         },
@@ -38,7 +42,7 @@ const ListFornecedores = (props) => {
                 data={props.data}
                 pagination
                 paginationPerPage={10}
-                dense
+                // dense
                 responsive
                 striped
                 noDataComponent="Sem dados."

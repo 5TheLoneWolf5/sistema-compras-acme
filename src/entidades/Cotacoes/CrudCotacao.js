@@ -1,5 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../utils/auth";
+import { convertToUnix } from "../../utils/functions";
+import Cotacao from ".";
 
 const sanitizeCotacao = (cotacao) => {
     
@@ -8,6 +10,10 @@ const sanitizeCotacao = (cotacao) => {
 
     cotacao.idFornecedor = JSON.parse(cotacao.fornecedor)["0"];
     cotacao.fornecedor = JSON.parse(cotacao.fornecedor)["1"];
+
+    cotacao.preco = Number(cotacao.preco);
+
+    cotacao.dataCompra = convertToUnix(cotacao.dataCompra);
 
     return cotacao;
 

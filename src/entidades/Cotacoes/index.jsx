@@ -26,7 +26,7 @@ const Cotacao = (props) => {
         <>
             <h1>Registrar e Ler Cotações de Produtos</h1>
             <FormCotacoes selectedData={selectedData} setSelectedData={setSelectedData} setToggleClearRows={setToggleClearRows} />
-            <ListCotacoes setSelectedData={setSelectedData} data={data} toggledClearRows={toggledClearRows} />
+            <ListCotacoes setSelectedData={setSelectedData} data={data} />
         </>
     );
 

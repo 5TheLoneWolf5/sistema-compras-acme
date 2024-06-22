@@ -4,9 +4,9 @@ const ListContatos = (props) => {
 
     const handleSelected = ({ selectedRows }) => {
 
-        if (props.toggledClearRows) {
-            props.setToggleClearRows(false);
-        }
+        // if (props.toggledClearRows) {
+        //     props.setToggleClearRows(false);
+        // }
 
         // console.log(props.data);
         const idLastSelected = selectedRows[0]?.id;
@@ -20,7 +20,7 @@ const ListContatos = (props) => {
 
     const columns = [
         {
-            name: "Nome",
+            name: "Nome da Empresa",
             selector: row => row.nome,
             sortable: true,
         },
@@ -44,7 +44,7 @@ const ListContatos = (props) => {
                 data={props.data}
                 pagination
                 paginationPerPage={10}
-                dense
+                // dense
                 responsive
                 striped
                 noDataComponent="Sem dados."

@@ -14,7 +14,14 @@ const Container = styled.div`
 const Main = styled.main`
 
     display: flex;
+    flex-direction: column;
     width: 100%;
+
+    @media (min-width: ${(props) => props.sizes.small}) {
+
+        flex-direction: row;
+
+    }
 
 `;
 
@@ -36,7 +43,7 @@ const Fornecedores = (props) => {
         // console.log(data);
 
         fetchData();
-        console.log(toggledClearRows);
+        // console.log(toggledClearRows);
 
     }, [selectedData]);
 
@@ -44,11 +51,11 @@ const Fornecedores = (props) => {
         <Container>
             <h1>Registrar e Ler Fornecedores</h1>
             <p>Você pode selecionar um fornecedor na tabela para obter seus pontos de contato.</p>
-            <Main>
+            <Main sizes={props.sizes}>
                 <FormFornecedores selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
                 {(selectedData && selectedData != "Criando...") && <ContatosFornecedor selectedData={selectedData} selectedNome={selectedNome} />}
             </Main>
-                <ListFornecedores setSelectedData={setSelectedData} data={data} toggledClearRows={toggledClearRows} setToggleClearRows={setToggleClearRows} setSelectedNome={setSelectedNome} />
+                <ListFornecedores setSelectedData={setSelectedData} data={data} setSelectedNome={setSelectedNome} />
         </Container>
     );
 

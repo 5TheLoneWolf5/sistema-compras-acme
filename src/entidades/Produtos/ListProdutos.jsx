@@ -1,10 +1,14 @@
 import DataTable from "react-data-table-component";
 
-const ListFornecedores = (props) => {
+const ListProdutos = (props) => {
 
     const handleSelected = ({ selectedRows }) => {
 
-        props.setSelectedNome(selectedRows[0]?.nome);
+        // if (props.toggledClearRows) {
+        //     props.setToggleClearRows(false);
+        // }
+
+        props.setSelectedProduto(selectedRows[0]?.produto);
 
         const idLastSelected = selectedRows[0]?.id;
 
@@ -18,11 +22,11 @@ const ListFornecedores = (props) => {
             selector: row => row.produto,
             sortable: true,
         },
-        {
-            name: "Fornecedor",
-            selector: row => row.fornecedor,
-            sortable: true,
-        },
+        // {
+        //     name: "Fornecedor",
+        //     selector: row => row.fornecedor,
+        //     sortable: true,
+        // },
         {
             name: "Descrição",
             selector: row => row.descricao,
@@ -38,7 +42,7 @@ const ListFornecedores = (props) => {
                 data={props.data}
                 pagination
                 paginationPerPage={10}
-                dense
+                // dense
                 responsive
                 striped
                 noDataComponent="Sem dados."
@@ -57,4 +61,4 @@ const ListFornecedores = (props) => {
 
 };
 
-export default ListFornecedores;
+export default ListProdutos;

@@ -128,7 +128,7 @@ const FormContatos = (props) => {
         /* This way, I can control the flow of validations (how I want the tests to be done [its logic], and when).
            Conditionals are stacked on top of each other so there's an else. */
            
-        const [nome, email, numero] = [getValues("nome"), getValues("email"), getValues("numero")];
+        const [nome, email, numero] = [getValues("nome"), getValues("email"), String(getValues("numero"))];
         
         // console.log(nome, email, numero);
         // console.log(regexEmail.test(email), regexNumber.test(numero));
@@ -186,7 +186,7 @@ const FormContatos = (props) => {
             // props.setSelectedData(idFirebase);
             // reset();
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            // props.setToggleClearRows(true);
         }
 
     };
@@ -226,7 +226,7 @@ const FormContatos = (props) => {
         if (props.selectedData) {
             await removeContato(props.selectedData);
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            // props.setToggleClearRows(true);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }
@@ -237,7 +237,7 @@ const FormContatos = (props) => {
         <div>
             <Form onSubmit={handleSubmit(handleCreate)}>
                 <label htmlFor="nome">
-                    Nome:<br />
+                    Nome da Empresa:<br />
                     <select {...register("nome", {
                         required: "Nome é obrigatório",
                     })} defaultValue={"Default"} className="selectNome">
@@ -253,7 +253,7 @@ const FormContatos = (props) => {
                 <br />
                 <label htmlFor="numero">
                     Número:<br />
-                    <input {...register("numero")} />
+                    <input {...register("numero")} type="number" />
                 </label>
                 {/* <label htmlFor="idFornecedor">
                     <input {...register("idFornecedor")} type="hidden" />

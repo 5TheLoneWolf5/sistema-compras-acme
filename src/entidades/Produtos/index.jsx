@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import ContatosFornecedor from "./ContatosFornecedor";
-import FormFornecedores from "./FormProdutos";
-import ListFornecedores from "./ListProdutos";
+import CotacoesProduto from "./CotacoesProduto";
+import FormProdutos from "./FormProdutos";
+import ListProdutos from "./ListProdutos";
 import styled from "styled-components";
 import { listProdutos } from "./CrudProdutos";
 
@@ -14,16 +14,23 @@ const Container = styled.div`
 const Main = styled.main`
 
     display: flex;
+    flex-direction: column;
     width: 100%;
+
+    @media (min-width: ${(props) => props.sizes.small}) {
+
+        flex-direction: row;
+
+    }
 
 `;
 
-const Fornecedores = (props) => {
+const Produtos = (props) => {
 
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
     const [toggledClearRows, setToggleClearRows] = useState(false);
-    const [selectedNome, setSelectedNome] = useState("");
+    const [selectedProduto, setSelectedProduto] = useState("");
 
     useEffect(() => {
 
@@ -36,22 +43,22 @@ const Fornecedores = (props) => {
         // console.log(data);
 
         fetchData();
-        console.log(toggledClearRows);
+        // console.log(toggledClearRows);
 
     }, [selectedData]);
 
     return (
         <Container>
-            <h1>Registrar e Ler Fornecedores</h1>
-            <p>Você pode selecionar um fornecedor na tabela para obter seus pontos de contato.</p>
-            <Main>
-                <FormFornecedores selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
-                {(selectedData && selectedData != "Criando...") && <ContatosFornecedor selectedData={selectedData} selectedNome={selectedNome} />}
+            <h1>Registrar e Ler Produtos</h1>
+            <p>Você pode selecionar um produto na tabela para obter suas cotações.</p>
+            <Main sizes={props.sizes}>
+                <FormProdutos selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
+                {(selectedData && selectedData != "Criando...") && <CotacoesProduto selectedData={selectedData} selectedProduto={selectedProduto} />}
             </Main>
-                <ListFornecedores setSelectedData={setSelectedData} data={data} toggledClearRows={toggledClearRows} setToggleClearRows={setToggleClearRows} setSelectedNome={setSelectedNome} />
+                <ListProdutos setSelectedData={setSelectedData} data={data} setSelectedProduto={setSelectedProduto} />
         </Container>
     );
 
 };
 
-export default Fornecedores;
+export default Produtos;
