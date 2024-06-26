@@ -1,7 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../../utils/auth";
+import { db } from "../../../../credentials/auth";
 import { convertToUnix } from "../../utils/functions";
-import Cotacao from ".";
 
 const sanitizeCotacao = (cotacao) => {
     
