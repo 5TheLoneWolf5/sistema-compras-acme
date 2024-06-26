@@ -1,5 +1,5 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../../utils/auth";
+import { db } from "../../../../credentials/auth";
 
 const sanitizeContato = (contato) => {
     
