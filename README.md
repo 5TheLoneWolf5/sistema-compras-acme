@@ -20,4 +20,4 @@ compras realizadas. Também possui/possuirá:
 
 > :exclamation: Há um video presente no repositório com o título de *amostra* que demonstra a utilização da aplicação.
 
-<sup><sub>A autenticação e credenciais para o Firebase devem ser criadas na máquina local do usuário que deseja rodar a aplicação, por questões de segurança.</sub></sup>
+<sup>A autenticação e credenciais para o Firebase devem ser criadas na máquina local do usuário que deseja rodar a aplicação, por questões de segurança.</sup>
