@@ -18,4 +18,6 @@ compras realizadas. Também possui/possuirá:
 * Implementação em ReactJS e React Native junto do Firebase.
 * Exportação das tabelas em CSV.
 
+<sup>Observação: A autenticação e as credenciais próprias para o Firebase devem ser colocadas em um arquivo na máquina local do usuário que desejar rodar a aplicação, por questões de segurança.</sup>
+
 > :exclamation: Há um video presente no repositório com o título de *amostra* que demonstra a utilização da aplicação.
