@@ -18,18 +18,18 @@ function App() {
 
     <>
         <BrowserRouter>
-        <div id="header-and-main">
-          <Suspense fallback={<Carregando />}>
-            <Navbar sizes={sizes} />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="produtos" element={<Produtos sizes={sizes} />} />
-              <Route path="cotacoes" element={<Cotacoes />} />
-              <Route path="fornecedores" element={<Fornecedores sizes={sizes} />} />
-              <Route path="contatos" element={<Contatos />} />
-            </Routes>
-          </Suspense>
-          </div>
+          <div id="header-and-main">
+            <Suspense fallback={<Carregando />}>
+              <Navbar sizes={sizes} />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="produtos" element={<Produtos sizes={sizes} />} />
+                <Route path="cotacoes" element={<Cotacoes />} />
+                <Route path="fornecedores" element={<Fornecedores sizes={sizes} />} />
+                <Route path="contatos" element={<Contatos />} />
+              </Routes>
+            </Suspense>
+            </div>
           <Rodape />
         </BrowserRouter>
     </>
