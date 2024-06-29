@@ -23,10 +23,10 @@ function App() {
               <Navbar sizes={sizes} />
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="produtos" element={<Produtos sizes={sizes} />} />
-                <Route path="cotacoes" element={<Cotacoes />} />
-                <Route path="fornecedores" element={<Fornecedores sizes={sizes} />} />
-                <Route path="contatos" element={<Contatos />} />
+                <Route path="/produtos" element={<Produtos sizes={sizes} />} />
+                <Route path="/cotacoes" element={<Cotacoes />} />
+                <Route path="/fornecedores" element={<Fornecedores sizes={sizes} />} />
+                <Route path="/contatos" element={<Contatos />} />
               </Routes>
             </Suspense>
             </div>
