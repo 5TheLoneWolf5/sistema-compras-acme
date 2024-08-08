@@ -17,7 +17,7 @@ const AppAPI = (props) => {
 
     return (
         <div>
-          <h1>Dashboards</h1>
+          <h1>Dashboard</h1>
           <p>Analise os dados do negócio!</p>
           <p><a href="/">Clique aqui</a> para acessar a página inicial.</p>
           <Dashboard>
