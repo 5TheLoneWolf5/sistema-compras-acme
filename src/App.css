@@ -58,7 +58,7 @@ html, body, #root {
     background-color: #1f1f1f;
 }
 
-.textAreaDescricao {
+.textArea {
     resize: vertical;
     max-height: 480px;
     min-height: 80px;
@@ -88,8 +88,10 @@ html, body, #root {
 }
 
 @media (min-width: 599px) {
+
     .linksNav {
         flex-grow: 1;
         width: fit-content;
     }
+
 }

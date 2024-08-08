@@ -210,7 +210,7 @@ const FormProdutos = (props) => {
                         validate: {
                             maxLength: (value) => value.length <= 1000 || "O campo descrição não é válido. Deve ter 1000 ou menos caracteres.",
                         }
-                    })} maxLength={1000} className="textAreaDescricao" type="textarea" />
+                    })} maxLength={1000} className="textArea" type="textarea" />
                 </label>
                 <br />
 

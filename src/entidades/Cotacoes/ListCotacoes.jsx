@@ -30,7 +30,7 @@ const ListCotacoes = (props) => {
         },
         {
             name: "Preço",
-            selector: row => row.preco,
+            selector: row => "R$ " + row.preco,
             sortable: true,
         },
         {

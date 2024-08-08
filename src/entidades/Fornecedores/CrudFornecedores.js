@@ -5,7 +5,7 @@ export async function insertFornecedor(fornecedor) {
 
     const docRef = await addDoc(collection(db, "fornecedores"), fornecedor);
     return docRef.id;
-
+    
 };
 
 export async function listFornecedores() {

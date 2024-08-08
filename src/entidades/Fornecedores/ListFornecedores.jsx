@@ -32,6 +32,12 @@ const ListFornecedores = (props) => {
             selector: row => row.setor,
             sortable: true,
         },
+        {
+            name: "Observações",
+            selector: row => row.observacoes,
+            sortable: true,
+            wrap: true,
+        },
         
     ];
 

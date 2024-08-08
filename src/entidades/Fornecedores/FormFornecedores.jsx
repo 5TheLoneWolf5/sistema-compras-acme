@@ -77,6 +77,7 @@ const FormFornecedores = (props) => {
                 setValue("nome", fornecedor.nome);
                 setValue("nomePessoa", fornecedor.nomePessoa);
                 setValue("setor", fornecedor.setor);
+                setValue("observacoes", fornecedor.observacoes);
 
             } else {
                 reset();
@@ -195,7 +196,15 @@ const FormFornecedores = (props) => {
                         <option value="Outro">Outro</option>
                     </select>
                 </label>
-
+                <br />
+                <label htmlFor="observacoes">
+                    Observações:<br />
+                    <textarea {...register("observacoes", {
+                        validate: {
+                            maxLength: (value) => value.length <= 1000 || "O campo de observações não é válido. Deve ter 1000 ou menos caracteres.",
+                        }
+                    })} maxLength={1000} className="textArea" type="textarea" />
+                </label>
                 <br />
                 <CrudButtons>
                     <label>
@@ -221,6 +230,9 @@ const FormFornecedores = (props) => {
                 )}
                 {errors.setor?.message && (
                     <ErrorSection>{errors.setor.message}</ErrorSection>
+                )}
+                {errors.observacoes?.message && (
+                    <ErrorSection>{errors.setor.observacoes}</ErrorSection>
                 )}
             </div>
         </div>

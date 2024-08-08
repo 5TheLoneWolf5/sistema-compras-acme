@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif, Arial, Helvetica;
+}
+
+html, body, #root {
+    scroll-behavior: smooth;
+    max-width: 100%;
+    margin: 2px;
+}
+
+html, body, #root {
+    max-width: 100%;
+}
+
+#pie_div, #column_div, #area_div {
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+@media (min-width: 599px) {
+
+    #pie_div, #column_div, #area_div {
+        overflow-x: hidden;
+    }
+
+}
