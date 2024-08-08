@@ -259,7 +259,7 @@ const FormCotacoes = (props) => {
                 </label>
                 <br />
                 <label htmlFor="preco">
-                    Preço:<br />
+                Preço:<br />
                     <input {...register("preco", {
                         required: "Preço é obrigatório",
                     })} type="number" />

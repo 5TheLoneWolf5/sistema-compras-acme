@@ -31,6 +31,7 @@ const ListProdutos = (props) => {
             name: "Descrição",
             selector: row => row.descricao,
             sortable: true,
+            wrap: true,
         },
         
     ];

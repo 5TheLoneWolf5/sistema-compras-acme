@@ -3,7 +3,8 @@ const Home = (props) => {
     return (
         <>
             <h1>Bem vindo ao sistema de compras da ACME!</h1>
-            <h3>Acesse as páginas acima para acessar ou alterar as informações de compras e fornecedores da empresa.</h3>
+            <p>Acesse as páginas acima para visualizar ou modificar as informações de compras e fornecedores da empresa.</p>
+            <p>Para utilizar o <strong>Dashboard</strong> e analisar os dados da organização, <a href="/api">clique aqui</a>.</p>
         </>
     );
 

@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Carregando, Contatos, Cotacoes, Fornecedores, Home, Navbar, Produtos, Rodape } from "./entidades";
+import { Carregando, Contatos, Cotacoes, Desconhecida, Fornecedores, Home, Navbar, Produtos, Rodape } from "./entidades";
 import { Suspense } from "react";
 
 
@@ -27,6 +27,8 @@ function App() {
                 <Route path="/cotacoes" element={<Cotacoes />} />
                 <Route path="/fornecedores" element={<Fornecedores sizes={sizes} />} />
                 <Route path="/contatos" element={<Contatos />} />
+                <Route path="/*" element={<Desconhecida />} />
+                {/* <Redirect to="/" /> */}
               </Routes>
             </Suspense>
             </div>
