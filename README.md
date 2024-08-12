@@ -1,4 +1,27 @@
-# Sistema de compras feito com React para a empresa ACME
+# Purchasing System — ACME
+
+## Project Definition
+The system aims to manage a company's purchases (products related to cleaning materials, office supplies, and even furniture and utensils).
+This is done through a responsive application, with an authentication and authorization mechanism, using an external data source. Products and their quotes can be registered, as well as the quotes for each product can be consulted.
+
+## Scope and Objectives Definition
+The main objective of the application is to provide purchasing management for the fictitious company ACME. To this end, the application has a pleasant, intuitive, responsive, and functional interface. The scope of the project is scalable and adaptable to the volume of purchases made. It also has/will have:
+
+* Responsiveness, mobile support, and implementation of user gestures.
+
+* Authentication and authorization.
+
+* Implementation in ReactJS and React Native with Firebase.
+
+* Export of tables in CSV.
+
+<sup>Note: Authentication and credentials for Firebase must be placed in a file on the local machine of the user who wants to run the application, for security reasons.</sup>
+
+> :exclamation: There is a video in the repository with the title *sample* that demonstrates how to use the application.
+
+---
+
+# Sistema de de Compras — ACME
 
 ## Definição do Projeto
 O sistema tem como objetivo o gerenciamento de compras de uma empresa (produtos
