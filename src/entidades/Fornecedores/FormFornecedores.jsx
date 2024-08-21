@@ -2,54 +2,9 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { insertFornecedor, obtainFornecedor, removeFornecedor, updateFornecedor } from "./CrudFornecedores";
-
-const Form = styled.form`
-    width: 250px;
-    margin: 10px auto;
-    background-color: #F5F5F5;
-    border-radius: 4px;
-    padding: 5px;
-
-    & > *, & > * > * {
-        width: 100%;
-        padding: 5px;
-    }
-
-    & > label {
-        display: flex;
-        flex-direction: column;
-    }
-`;
-
-const CrudButtons = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-
-    & > label {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    & > label > input {
-        flex: 0.9 1 auto;
-    }
-
-    & > label > img {
-        width: 30px;
-    }
-`;
-
-const ErrorSection = styled.div`
-    margin: 15px auto;
-    width: 180px;
-    border: 5px red solid;
-    background-color: #f59987;
-    padding: 10px;
-    font-weight: bold;
-    margin-top: 20px;
-`;
+import ErrorSection from "../../componentes/ErrorSection";
+import CrudButtons from "../../componentes/CrudButtons";
+import FormCrud from "../../componentes/FormCrud";
 
 const FormFornecedores = (props) => {
 
@@ -167,7 +122,7 @@ const FormFornecedores = (props) => {
 
     return (
         <div style={{flexGrow: "1"}}>
-            <Form onSubmit={handleSubmit(handleCreate)}>
+            <FormCrud onSubmit={handleSubmit(handleCreate)}>
                 <label htmlFor="nome">
                     Nome da Empresa:<br />
                     <input {...register("nome", {
@@ -206,21 +161,8 @@ const FormFornecedores = (props) => {
                     })} maxLength={1000} className="textArea" type="textarea" />
                 </label>
                 <br />
-                <CrudButtons>
-                    <label>
-                        <input type="submit" value="Criar" size={100} />
-                        <img src="./src/assets/add.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Editar" onClick={handleEdit}/>
-                        <img src="./src/assets/edit.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Remover" onClick={handleRemove} />
-                        <img src="./src/assets/remove.svg" />
-                    </label>
-                </CrudButtons>
-            </Form>
+                <CrudButtons functionedit={handleEdit} functionremove={handleRemove} />
+            </FormCrud>
             <div>
                 {(errors.nome?.message) && (
                     <ErrorSection>{errors.nome.message}</ErrorSection>

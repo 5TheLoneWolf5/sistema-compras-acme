@@ -10,7 +10,6 @@ const Column = styled.aside`
     border: 1px solid black;
     padding: 10px;
     height: fit-content;
-    margin-right: 10px;
 
 `;
 
@@ -22,7 +21,6 @@ const Item = styled.aside`
 `;
 
 const ContatoTitle = styled.h3`
-
 
 `;
 
@@ -83,7 +81,7 @@ const ContatosFornecedor = (props) => {
     // }, []);
 
     return (
-        <Column>
+        <Column className="columnRelationship">
             <h2>Contato(s) do Fornecedor <u>{props.selectedNome}</u></h2>
             {contatos.map(item => item)}
         </Column>

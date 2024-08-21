@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Icon from "../../componentes/Icon";
+import { signOut } from "firebase/auth";
+import AuthContext from "../../contexts/AuthContext";
 
 const Header = styled.header`
     display: flex;
@@ -38,10 +41,6 @@ const Nav = styled.nav`
         border-radius: 2px;
         flex-wrap: wrap;
     }
-`;
-
-const Logo = styled.img`
-    width: 80px;
 `;
 
 const Title = styled.h1`
@@ -99,6 +98,8 @@ const Navbar = (props) => {
     const [screenSize, setScreenSize] = useState(window.matchMedia(`(min-width: ${props.sizes.small})`).matches);
     const [wasMenu, setWasMenu] = useState(false);
 
+    const auth = useContext(AuthContext);
+
     useEffect(() => {
         
         document.body.classList.remove("bodyScrollX");
@@ -132,20 +133,33 @@ const Navbar = (props) => {
 
         if (!toggleMenu) {
         
-        setToggleMenu(true);
+            setToggleMenu(true);
 
-    } else {
+        } else {
 
-        setToggleMenu(false);
+            setToggleMenu(false);
 
-    }
+        }
+    };
+
+    const handleSignOut = () => {
+
+        signOut(props.auth);
+        auth.setUserAuth((data) => { 
+            return {
+            ...data,
+            isLogged: false,
+            email: "",
+        }});
+        props.navigate("/login");
+
     };
     
     return (
         <>
             <Header>
                 <Link className="linksMenu imgsHeader" style={ { ...linkStyle } } to="/">
-                    <Logo src="./src/assets/logo.svg" />
+                    <Icon width={60} src="./src/assets/logo.svg" />
                     <Title className="title">ACME</Title>
                 </Link>
                 <div className="imgsHeader">
@@ -158,6 +172,7 @@ const Navbar = (props) => {
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/cotacoes">Cotações</Link>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/fornecedores">Fornecedores</Link>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/contatos">Contatos</Link>
+                        <span onClick={handleSignOut} className="linksMenu linksNav sairNav">Sair</span>
                     </Nav>
                 </> }
             </Header>

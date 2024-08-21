@@ -1,4 +1,15 @@
+import { useContext, useEffect } from "react";
+import AuthContext from "../../contexts/AuthContext";
+
 const Home = (props) => {
+
+    const auth = useContext(AuthContext);
+
+    useEffect(() => {
+
+        auth.setUserAuth({ ...auth.userAuth, route: window.location.pathname });
+
+    }, []);
 
     return (
         <>

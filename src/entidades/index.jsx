@@ -7,3 +7,5 @@ export { default as Navbar } from "./Navbar";
 export { default as Rodape } from "./Rodape";
 export { default as Home } from "./Home";
 export { default as Desconhecida } from "./Desconhecida";
+export { default as Login } from "./Login";
+export { default as Cadastro } from "./Cadastro";

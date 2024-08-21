@@ -11,7 +11,6 @@ const Column = styled.aside`
     border: 1px solid black;
     padding: 10px;
     height: fit-content;
-    margin: 0 10px;
 
 `;
 
@@ -71,7 +70,7 @@ const CotacoesProduto = (props) => {
     }, [props.selectedData]); // So it updates even when between different values.
 
     return (
-        <Column>
+        <Column className="columnRelationship">
             <h2>Cotações(s) do Produto <u>{props.selectedProduto}</u></h2>
             {cotacoes.map(item => item)}
         </Column>

@@ -4,54 +4,9 @@ import { insertContato, obtainContato, removeContato, updateContato } from "./Cr
 import { useEffect, useState } from "react";
 import { listFornecedores } from "../Fornecedores/CrudFornecedores";
 import { regexEmail, regexNumber } from "../../utils/regex";
-
-const Form = styled.form`
-    width: 250px;
-    margin: 10px auto;
-    background-color: #F5F5F5;
-    border-radius: 4px;
-    padding: 5px;
-
-    & > *, & > * > * {
-        width: 100%;
-        padding: 5px;
-    }
-
-    & > label {
-        display: flex;
-        flex-direction: column;
-    }
-`;
-
-const CrudButtons = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-
-    & > label {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    & > label > input {
-        flex: 0.9 1 auto;
-    }
-
-    & > label > img {
-        width: 30px;
-    }
-`;
-
-const ErrorSection = styled.div`
-    margin: 15px auto;
-    width: 180px;
-    border: 5px red solid;
-    background-color: #f59987;
-    padding: 10px;
-    font-weight: bold;
-    margin-top: 20px;
-`;
+import ErrorSection from "../../componentes/ErrorSection";
+import CrudButtons from "../../componentes/CrudButtons";
+import FormCrud from "../../componentes/FormCrud";
 
 const FormContatos = (props) => {
 
@@ -127,7 +82,7 @@ const FormContatos = (props) => {
 
         /* This way, I can control the flow of validations (how I want the tests to be done [its logic], and when).
            Conditionals are stacked on top of each other so there's an else. */
-           
+        
         const [nome, email, numero] = [getValues("nome"), getValues("email"), String(getValues("numero"))];
         
         // console.log(nome, email, numero);
@@ -177,7 +132,7 @@ const FormContatos = (props) => {
     };
 
     const handleCreate = async (data) => {
-
+        
          if (validateContatos()) {
             // Setting a value to selectedData so values get updated when the form data gets wiped out.
             props.setSelectedData("Criando...");
@@ -235,7 +190,7 @@ const FormContatos = (props) => {
 
     return (
         <div>
-            <Form onSubmit={handleSubmit(handleCreate)}>
+            <FormCrud onSubmit={handleSubmit(handleCreate)}>
                 <label htmlFor="nome">
                     Nome da Empresa:<br />
                     <select {...register("nome", {
@@ -259,21 +214,8 @@ const FormContatos = (props) => {
                     <input {...register("idFornecedor")} type="hidden" />
                 </label> */}
                 <br />
-                <CrudButtons>
-                    <label>
-                        <input type="submit" value="Criar" size={100} />
-                        <img src="./src/assets/add.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Editar" onClick={handleEdit}/>
-                        <img src="./src/assets/edit.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Remover" onClick={handleRemove} />
-                        <img src="./src/assets/remove.svg" />
-                    </label>
-                </CrudButtons>
-            </Form>
+                <CrudButtons functionedit={handleEdit} functionremove={handleRemove} />
+            </FormCrud>
             <div>
                 {(errors.nome?.message) && (
                     <ErrorSection>{errors.nome.message}</ErrorSection>

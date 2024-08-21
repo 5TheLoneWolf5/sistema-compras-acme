@@ -7,12 +7,7 @@ const AreaChart = (props) => {
 
     useEffect(() => {
 
-      // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
 
       const returnYearFromUnix = (time) => { { return (new Date(formatDate(time)).getFullYear()).toString() } };
 
@@ -20,7 +15,6 @@ const AreaChart = (props) => {
 
         const cotacoes = await listCotacoes();
 
-        // Create the data table.
         const data = new google.visualization.DataTable();
         data.addColumn("string", "Ano");
         data.addColumn("number", "Preço total de Cotações por Ano");
@@ -28,9 +22,13 @@ const AreaChart = (props) => {
         const groupedValues = [];
         // console.log(cotacoes);
 
+        // console.time("Loop");
+
         for (let i = 0; i < cotacoes.length ; i++) {
 
           let repeatedDate = false;
+
+          // Verifying if year has already been counted.
 
           // console.log(cotacoes[i].dataCompra + " data");
           for (let j = 0; j < groupedValues.length ; j++) {
@@ -38,19 +36,34 @@ const AreaChart = (props) => {
             if (returnYearFromUnix(cotacoes[i].dataCompra) === groupedValues[j].year) {
               // console.log(cotacoes[i].dataCompra);
               repeatedDate = true;
+              break;
             }
           }
 
           if (repeatedDate) continue;
 
-          groupedValues.push({ year: returnYearFromUnix(cotacoes[i].dataCompra), totalPrice: cotacoes[i].preco });
+          // Compounding the total price for the respective year inside this iteration.
+
+          let totalYearPrice = 0;
+
+          for (let j = 0; j < cotacoes.length ; j++) {
+            if (returnYearFromUnix(cotacoes[i].dataCompra) === returnYearFromUnix(cotacoes[j].dataCompra)) {
+              totalYearPrice += cotacoes[j].preco;
+            }
+          }
+
+          // console.log(totalYearPrice);
+
+          groupedValues.push({ year: returnYearFromUnix(cotacoes[i].dataCompra), totalPrice: totalYearPrice });
 
         };
+
+        // console.timeEnd("Loop");
 
         // const reducedYears = [...new Set(years)];
 
         groupedValues.sort((a, b) => +a.year - +b.year);
-        console.log(groupedValues);
+        // console.log(groupedValues);
 
         for (let i = 0; i < groupedValues.length; i++) {
 
@@ -60,20 +73,17 @@ const AreaChart = (props) => {
 
         }
 
-        // Set chart options
         const options = {'title':'Preço total de Cotações por Ano',
                         'hAxis': { title: 'Ano' },
                         'vAxis': { title: 'Preço' },
                         'width':599,
                         'height':300};
 
-        // Instantiate and draw our chart, passing in some options.
         const chart = new google.visualization.AreaChart(document.getElementById('area_div'));
         chart.draw(data, options);
 
         }
 
-        // Set a callback to run when the Google Visualization API is loaded.
         google.charts.setOnLoadCallback(drawChart);
 
     }, []);

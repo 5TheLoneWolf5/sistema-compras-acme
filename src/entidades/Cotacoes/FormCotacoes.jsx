@@ -6,54 +6,9 @@ import { listProdutos } from "../Produtos/CrudProdutos";
 import { listFornecedores } from "../Fornecedores/CrudFornecedores";
 import { regexEmail, regexNumber } from "../../utils/regex";
 import { formatDate } from "../../utils/functions";
-
-const Form = styled.form`
-    width: 250px;
-    margin: 10px auto;
-    background-color: #F5F5F5;
-    border-radius: 4px;
-    padding: 5px;
-
-    & > *, & > * > * {
-        width: 100%;
-        padding: 5px;
-    }
-
-    & > label {
-        display: flex;
-        flex-direction: column;
-    }
-`;
-
-const CrudButtons = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-
-    & > label {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    & > label > input {
-        flex: 0.9 1 auto;
-    }
-
-    & > label > img {
-        width: 30px;
-    }
-`;
-
-const ErrorSection = styled.div`
-    margin: 15px auto;
-    width: 180px;
-    border: 5px red solid;
-    background-color: #f59987;
-    padding: 10px;
-    font-weight: bold;
-    margin-top: 20px;
-`;
+import ErrorSection from "../../componentes/ErrorSection";
+import CrudButtons from "../../componentes/CrudButtons";
+import FormCrud from "../../componentes/FormCrud";
 
 const FormCotacoes = (props) => {
 
@@ -237,7 +192,7 @@ const FormCotacoes = (props) => {
 
     return (
         <div>
-            <Form onSubmit={handleSubmit(handleCreate)}>
+            <FormCrud onSubmit={handleSubmit(handleCreate)}>
                 <label htmlFor="produto">
                     Produto:<br />
                     <select {...register("produto", {
@@ -272,21 +227,8 @@ const FormCotacoes = (props) => {
                      })} type="datetime-local" />
                 </label>
                 <br />
-                <CrudButtons>
-                    <label>
-                        <input type="submit" value="Criar" size={100} />
-                        <img src="./src/assets/add.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Editar" onClick={handleEdit}/>
-                        <img src="./src/assets/edit.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Remover" onClick={handleRemove} />
-                        <img src="./src/assets/remove.svg" />
-                    </label>
-                </CrudButtons>
-            </Form>
+                <CrudButtons functionedit={handleEdit} functionremove={handleRemove} />
+            </FormCrud>
             <div>
                 {(errors.produto?.message) && (
                     <ErrorSection>{errors.produto.message}</ErrorSection>

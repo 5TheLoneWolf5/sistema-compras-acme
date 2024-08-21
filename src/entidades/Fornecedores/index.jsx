@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ContatosFornecedor from "./ContatosFornecedor";
 import FormFornecedores from "./FormFornecedores";
 import ListFornecedores from "./ListFornecedores";
 import styled from "styled-components";
 import { listFornecedores } from "./CrudFornecedores";
+import AuthContext from "../../contexts/AuthContext";
+import Filter from "../../componentes/Filter";
 
 const Container = styled.div`
 
@@ -14,14 +16,10 @@ const Container = styled.div`
 const Main = styled.main`
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
-
-    @media (min-width: ${(props) => props.sizes.small}) {
-
-        flex-direction: row;
-
-    }
 
 `;
 
@@ -31,21 +29,40 @@ const Fornecedores = (props) => {
     const [selectedData, setSelectedData] = useState("");
     const [toggledClearRows, setToggleClearRows] = useState(false);
     const [selectedNome, setSelectedNome] = useState("");
+    const [filter, setFilter] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
+    
+    const auth = useContext(AuthContext);
+
+    const fetchData = async () => setData(await listFornecedores());
+
+    useEffect(() => {
+
+        auth.setUserAuth({ ...auth.userAuth, route: window.location.pathname });
+
+    }, []);
 
     useEffect(() => {
 
         // console.log(selectedData);
 
-        const fetchData = async () => {
-            setData(await listFornecedores());
-        };
+        fetchData();
 
+        // console.log(toggledClearRows);
         // console.log(data);
 
-        fetchData();
-        // console.log(toggledClearRows);
-
     }, [selectedData]);
+
+    useEffect(() => {
+
+        // console.log(filter);
+
+        setFilteredData(data.filter((item) => item?.nome.toLowerCase().startsWith(filter.toLowerCase())));
+
+        // console.log(data.filter((item, idx) => item[idx].nome.startsWith(item)));
+        // setData(data.filter((item, idx) => item[idx].nome.startsWith(item)));
+
+    }, [filter]);
 
     return (
         <Container>
@@ -55,7 +72,8 @@ const Fornecedores = (props) => {
                 <FormFornecedores selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
                 {(selectedData && selectedData != "Criando...") && <ContatosFornecedor selectedData={selectedData} selectedNome={selectedNome} />}
             </Main>
-                <ListFornecedores setSelectedData={setSelectedData} data={data} setSelectedNome={setSelectedNome} />
+                <Filter filter={filter} setFilter={setFilter} placeholder="Pesquise pelo fornecedor..." />
+                <ListFornecedores setSelectedData={setSelectedData} data={filter ? filteredData : data} setSelectedNome={setSelectedNome} />
         </Container>
     );
 
