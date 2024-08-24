@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { listCotacoes } from "../Cotacoes/CrudCotacao";
+import { listCotacoes } from "../Cotacoes/CrudCotacoes";
 import { formatDate } from "../../utils/functions";
 
 const Column = styled.aside`

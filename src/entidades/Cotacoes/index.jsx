@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { listCotacoes } from "./CrudCotacao";
+import { listCotacoes } from "./CrudCotacoes";
 import FormCotacoes from "./FormCotacoes";
 import ListCotacoes from "./ListCotacoes";
 import AuthContext from "../../contexts/AuthContext";

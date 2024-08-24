@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { listFornecedores } from "../entidades/Fornecedores/CrudFornecedores";
-import { listCotacoes } from "../entidades/Cotacoes/CrudCotacao";
+import { listCotacoes } from "../entidades/Cotacoes/CrudCotacoes";
 
 const ColumnChart = (props) => {
 

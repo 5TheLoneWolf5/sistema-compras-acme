@@ -79,6 +79,13 @@ html, body, #root {
     cursor: pointer;
 }
 
+.settingsNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1134a7;
+}
+
 ::-webkit-resizer {
     background-color: #d3d3d3;
     border-top-left-radius: 5px;

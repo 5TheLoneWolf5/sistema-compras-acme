@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Cadastro, Carregando, Contatos, Cotacoes, Desconhecida, Fornecedores, Home, Login, Navbar, Produtos, Rodape } from "./entidades";
+import { Cadastro, Carregando, Configuracoes, Contatos, Cotacoes, Desconhecida, Fornecedores, Home, Login, Navbar, Produtos, Rodape } from "./entidades";
 import { Suspense, useEffect, useState } from "react";
 import AuthContext from "./contexts/AuthContext";
 import { auth } from "./../../credentials/auth";
@@ -19,13 +19,25 @@ const App = () => {
   // console.log(auth);
   const [userAuth, setUserAuth] = useState(
     {
-      isLogged: localStorage.getItem("user") == "",
+      isLogged: false, // localStorage.getItem("user") == "",
       email: null,
       route: "/",
     }
   );
   
   const navigate = useNavigate();
+
+  const authUser = () => {
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserAuth((prevItems) => ({ ...prevItems, email: user.providerData, isLogged: true }));
+        // const uid = user.uid;
+        // console.log(user.providerData);
+      }
+    });
+
+  };
 
   useEffect(() => {
 
@@ -44,7 +56,7 @@ const App = () => {
   return (
     <>
         <AuthContext.Provider value={ { userAuth, setUserAuth } }>
-          <div id="header-and-main">
+          <div id="header-and-main" onLoad={authUser}>
             <Suspense fallback={<Carregando />}>
               { userAuth.isLogged && <Navbar sizes={sizes} auth={auth} navigate={navigate} /> }
               <Routes>
@@ -60,6 +72,7 @@ const App = () => {
                   <Route path="/cotacoes" element={<Cotacoes />} />
                   <Route path="/fornecedores" element={<Fornecedores sizes={sizes} />} />
                   <Route path="/contatos" element={<Contatos />} />
+                  <Route path="/configuracoes" element={<Configuracoes />} />
                   <Route path="/*" element={<Desconhecida />} />
                 </>
                 }

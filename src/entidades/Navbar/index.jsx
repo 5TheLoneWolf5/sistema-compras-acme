@@ -116,6 +116,7 @@ const Navbar = (props) => {
 
             document.body.classList.remove("bodyScrollX");
             document.body.classList.add("removeScroll");
+            window.scrollTo(0, 0);
 
         } else {
 
@@ -151,6 +152,7 @@ const Navbar = (props) => {
             isLogged: false,
             email: "",
         }});
+        
         props.navigate("/login");
 
     };
@@ -169,9 +171,10 @@ const Navbar = (props) => {
                     <Blackspace onClick={handleMenu} sizes={props.sizes} />
                     <Nav className="slideIn" sizes={props.sizes}>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/produtos">Produtos</Link>
-                        <Link onClick={handleMenu} className="linksMenu linksNav" to="/cotacoes">Cotações</Link>
+                        <Link onClick={handleMenu} className="linksMenu linksNav" to="/cotacoes">Requisições e Cotações</Link>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/fornecedores">Fornecedores</Link>
                         <Link onClick={handleMenu} className="linksMenu linksNav" to="/contatos">Contatos</Link>
+                        <Link onClick={handleMenu} className="linksMenu linksNav settingsNav" to="/configuracoes"><Icon width={60} src="./src/assets/settings.svg" /></Link>
                         <span onClick={handleSignOut} className="linksMenu linksNav sairNav">Sair</span>
                     </Nav>
                 </> }

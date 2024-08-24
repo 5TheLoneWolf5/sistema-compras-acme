@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { insertCotacao, obtainCotacao, removeCotacao, updateCotacao } from "./CrudCotacao";
+import { insertCotacao, obtainCotacao, removeCotacao, updateCotacao } from "./CrudCotacoes";
 import { useEffect, useState } from "react";
 import { listProdutos } from "../Produtos/CrudProdutos";
 import { listFornecedores } from "../Fornecedores/CrudFornecedores";
