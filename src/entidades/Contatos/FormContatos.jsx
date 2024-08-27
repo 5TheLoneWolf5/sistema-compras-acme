@@ -167,7 +167,7 @@ const FormContatos = (props) => {
 
             await updateContato(values);
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            props.setSelectedRow((item) => !item);
 
         } else {
             console.log("Dado não selecionado para ser atualizado.");
@@ -181,7 +181,7 @@ const FormContatos = (props) => {
         if (props.selectedData) {
             await removeContato(props.selectedData);
             props.setSelectedData("");
-            // props.setToggleClearRows(true);
+            props.setSelectedRow((item) => !item);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }

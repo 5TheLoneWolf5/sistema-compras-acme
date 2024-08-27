@@ -49,13 +49,19 @@ html, body, #root {
 }
 
 .linksNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
     color: white;
     background-color: #091e63;
     border-radius: 5px;
     width: 100%;
-    padding: 10px 0;
-    vertical-align: middle;
-    line-height: 60px;
+    padding: 10px;
+    /* display: inline-block; */
+    /* vertical-align: middle; */
+    /* line-height: normal; */
+    /* line-height: 60px; */
     z-index: 1;
 }
 

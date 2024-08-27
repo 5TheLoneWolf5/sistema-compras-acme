@@ -99,7 +99,7 @@ const FormFornecedores = (props) => {
 
             await updateFornecedor(values);
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            props.setSelectedRow((item) => !item);
 
         } else {
             console.log("Dado não selecionado para ser atualizado.");
@@ -113,7 +113,7 @@ const FormFornecedores = (props) => {
         if (props.selectedData) {
             await removeFornecedor(props.selectedData);
             props.setSelectedData("");
-            // props.setToggleClearRows(true);
+            // props.setSelectedRow((item) => !item);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }
@@ -158,7 +158,7 @@ const FormFornecedores = (props) => {
                         validate: {
                             maxLength: (value) => value.length <= 1000 || "O campo de observações não é válido. Deve ter 1000 ou menos caracteres.",
                         }
-                    })} maxLength={1000} className="textArea" type="textarea" />
+                    })} maxLength={1000} className="textArea" type="textarea"></textarea>
                 </label>
                 <br />
                 <CrudButtons functionedit={handleEdit} functionremove={handleRemove} />

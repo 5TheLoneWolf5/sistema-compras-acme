@@ -9,10 +9,18 @@ const ListContatos = (props) => {
         // }
 
         // console.log(props.data);
+
+        if (selectedRows?.length > 0) { 
+            
+            window.scrollTo(0, 0);
+
+         }
+
+        // console.log(idLastSelected);
+
         const idLastSelected = selectedRows[0]?.id;
 
         idLastSelected ? props.setSelectedData(idLastSelected) : props.setSelectedData("");
-        // console.log(idLastSelected);
 
     };
 
@@ -54,7 +62,7 @@ const ListContatos = (props) => {
                 selectableRowsHighlight
                 selectableSingle
                 selectableRowsSingle
-                clearSelectedRows={props.toggledClearRows}
+                clearSelectedRows={props.selectedRow}
                 onSelectedRowsChange={handleSelected}
              />
         </>

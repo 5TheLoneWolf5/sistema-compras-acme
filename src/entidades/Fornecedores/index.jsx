@@ -27,7 +27,7 @@ const Fornecedores = (props) => {
 
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
-    const [toggledClearRows, setToggleClearRows] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(false);
     const [selectedNome, setSelectedNome] = useState("");
     const [filter, setFilter] = useState("");
     const [filteredData, setFilteredData] = useState([]);
@@ -69,11 +69,11 @@ const Fornecedores = (props) => {
             <h1>Registrar e Ler Fornecedores</h1>
             <p>Você pode selecionar um fornecedor na tabela para obter seus pontos de contato.</p>
             <Main sizes={props.sizes}>
-                <FormFornecedores selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
+                <FormFornecedores selectedData={selectedData} setSelectedRow={setSelectedRow} setSelectedData={setSelectedData} />
                 {(selectedData && selectedData != "Criando...") && <ContatosFornecedor selectedData={selectedData} selectedNome={selectedNome} />}
             </Main>
                 <Filter filter={filter} setFilter={setFilter} placeholder="Pesquise pelo fornecedor..." />
-                <ListFornecedores setSelectedData={setSelectedData} data={filter ? filteredData : data} setSelectedNome={setSelectedNome} />
+                <ListFornecedores setSelectedData={setSelectedData} data={filter ? filteredData : data} setSelectedNome={setSelectedNome} selectedRow={selectedRow} />
         </Container>
     );
 

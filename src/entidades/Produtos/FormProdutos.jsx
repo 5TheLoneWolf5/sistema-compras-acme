@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { insertProduto, obtainProduto, removeProduto, updateProduto } from "./CrudProdutos";
-import { listFornecedores } from "../Fornecedores/CrudFornecedores";
 import ErrorSection from "../../componentes/ErrorSection";
 import CrudButtons from "../../componentes/CrudButtons";
 import FormCrud from "../../componentes/FormCrud";
@@ -52,7 +50,7 @@ const FormProdutos = (props) => {
 
             }
             else if (props.selectedData && !isSubmitted) {
-
+                
                 const produto = await obtainProduto(props.selectedData);
                 setValue("produto", produto.produto);
                 // setValue("fornecedor", '{"0": "' + produto.idFornecedor + '", "1": "' + produto.fornecedor + '"}');
@@ -115,7 +113,7 @@ const FormProdutos = (props) => {
 
             await updateProduto(values);
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            props.setSelectedRow((item) => !item);
 
         } else {
             console.log("Dado não selecionado para ser atualizado.");
@@ -129,7 +127,7 @@ const FormProdutos = (props) => {
         if (props.selectedData) {
             await removeProduto(props.selectedData);
             props.setSelectedData("");
-            // props.setToggleClearRows(true);
+            props.setSelectedRow((item) => !item);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }
@@ -165,7 +163,7 @@ const FormProdutos = (props) => {
                         validate: {
                             maxLength: (value) => value.length <= 1000 || "O campo descrição não é válido. Deve ter 1000 ou menos caracteres.",
                         }
-                    })} maxLength={1000} className="textArea" type="textarea" />
+                    })} maxLength={1000} className="textArea" type="textarea"></textarea>
                 </label>
                 <br />
                 <CrudButtons functionedit={handleEdit} functionremove={handleRemove} />

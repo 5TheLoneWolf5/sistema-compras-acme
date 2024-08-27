@@ -27,7 +27,7 @@ const Produtos = (props) => {
 
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
-    const [toggledClearRows, setToggleClearRows] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(false);
     const [selectedProduto, setSelectedProduto] = useState("");
     const [filter, setFilter] = useState("");
     const [filteredData, setFilteredData] = useState([]);
@@ -35,7 +35,7 @@ const Produtos = (props) => {
     const auth = useContext(AuthContext);
 
     useEffect(() => {
-
+        
         auth.setUserAuth({ ...auth.userAuth, route: window.location.pathname });
 
     }, []);
@@ -56,7 +56,7 @@ const Produtos = (props) => {
     }, [selectedData]);
 
     useEffect(() => {
-
+        
         setFilteredData(data.filter((item) => item?.produto.toLowerCase().startsWith(filter.toLowerCase())));
 
     }, [filter]);
@@ -66,11 +66,11 @@ const Produtos = (props) => {
             <h1>Registrar e Ler Produtos</h1>
             <p>Você pode selecionar um produto na tabela para obter suas cotações.</p>
             <Main sizes={props.sizes}>
-                <FormProdutos selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
+                <FormProdutos selectedData={selectedData} setSelectedRow={setSelectedRow} setSelectedData={setSelectedData} />
                 {(selectedData && selectedData != "Criando...") && <CotacoesProduto selectedData={selectedData} selectedProduto={selectedProduto} />}
             </Main>
                 <Filter filter={filter} setFilter={setFilter} placeholder="Pesquise pelo produto..." />
-                <ListProdutos setSelectedData={setSelectedData} data={filter ? filteredData : data} setSelectedProduto={setSelectedProduto} />
+                <ListProdutos setSelectedData={setSelectedData} data={filter ? filteredData : data} setSelectedProduto={setSelectedProduto} selectedRow={selectedRow} />
         </Container>
     );
 

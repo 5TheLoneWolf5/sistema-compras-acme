@@ -8,7 +8,13 @@ const ListFornecedores = (props) => {
         //     props.setToggleClearRows(false);
         // }
 
-        props.setSelectedNome(selectedRows[0]?.nome);
+        if (selectedRows?.length > 0) { 
+            
+            window.scrollTo(0, 0);
+
+            props.setSelectedNome(selectedRows[0]?.nome);
+
+        }
 
         const idLastSelected = selectedRows[0]?.id;
 
@@ -58,7 +64,7 @@ const ListFornecedores = (props) => {
                 selectableRowsHighlight
                 selectableSingle
                 selectableRowsSingle
-                clearSelectedRows={props.toggledClearRows}
+                clearSelectedRows={props.selectedRow}
                 onSelectedRowsChange={handleSelected}
                 className="dataTable"
              />
