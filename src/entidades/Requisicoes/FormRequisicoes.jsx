@@ -32,7 +32,6 @@ const CrudButtonsElements = styled.div`
 const FormRequisicoes = (props) => {
 
     const { register, handleSubmit, formState: { errors, isSubmitted }, reset, setValue, getValues, setError } = useForm();
-    const [optionsStatus, setOptionsStatus] = useState([]);
     // const [fornecedorRef, setFornecedorRef] = useState({});
 
     const auth = useContext(AuthContext);

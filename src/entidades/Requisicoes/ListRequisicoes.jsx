@@ -13,6 +13,15 @@ const ListRequisicoes = (props) => {
 
     const auth = useContext(AuthContext);
 
+    useEffect(() => {
+
+        if (!activateModal && selectedRow) {
+            // console.log(JSON.stringify(selectedRow));
+            props.setSelectedData(JSON.stringify(selectedRow)); // If selectedRow is changed, data will be once again be fetched, and table outside will get updated.
+        }
+
+    }, [activateModal]);
+
     const handleSelected = ({ selectedRows }) => {
 
         // if (props.toggledClearRows) {
@@ -115,7 +124,7 @@ const ListRequisicoes = (props) => {
                 clearSelectedRows={props.selectedRow}
                 onSelectedRowsChange={handleSelected}
              />
-             {activateModal && <Cotacoes data={selectedRow} activateModal={activateModal} setActivateModal={setActivateModal} sizes={props.sizes} setSelectedRow={setSelectedRow} setSelectedData={props.setSelectedData} selectedData={props.selectedData} />}
+             {activateModal && <Cotacoes data={selectedRow} activateModal={activateModal} setActivateModal={setActivateModal} sizes={props.sizes} setSelectedRow={setSelectedRow} selectedRow={selectedRow} />}
         </>
     );
 

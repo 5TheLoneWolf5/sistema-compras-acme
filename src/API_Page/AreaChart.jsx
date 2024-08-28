@@ -1,6 +1,5 @@
 // import { useEffect } from "react";
-// import { listFornecedores } from "../entidades/Fornecedores/CrudFornecedores";
-// import { listCotacoes } from "../entidades/Requisicoes/CrudRequisicoes";
+// import { listRequisicoes } from "../entidades/Requisicoes/CrudRequisicoes";
 // import { formatDate } from "../utils/functions";
 
 // const AreaChart = (props) => {
@@ -13,7 +12,7 @@
 
 //       const drawChart = async () => {
 
-//         const cotacoes = await listCotacoes();
+//         const cotacoes = await listRequisicoes();
 
 //         const data = new google.visualization.DataTable();
 //         data.addColumn("string", "Ano");

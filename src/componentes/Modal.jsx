@@ -33,6 +33,16 @@ const ModalContainer = styled.div`
 
 `;
 
+const CloseButton = styled.img`
+
+    width: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+
+`;
+
 const Modal = (props) => {
 
     useEffect(() => {
@@ -58,6 +68,7 @@ const Modal = (props) => {
     return (
         <BackgroundModal className="fadeIn" onClick={handleClick}>
             <ModalContainer onClick={(e) => e.stopPropagation()}>
+                <CloseButton src="./src/assets/close.svg" title="Fechar" onClick={handleClick}></CloseButton>
                 {props.children}
             </ModalContainer>
         </BackgroundModal>
