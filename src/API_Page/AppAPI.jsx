@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PieChart from "./PieChart";
 import ColumnChart from "./ColumnChart";
-import AreaChart from "./AreaChart";
+// import AreaChart from "./AreaChart";
 
 const Dashboard = styled.div`
 
@@ -23,7 +23,7 @@ const AppAPI = (props) => {
           <Dashboard>
             <PieChart />
             <ColumnChart />
-            <AreaChart />
+            {/* <AreaChart /> */} { /* Changes in the system made this component obsolete. */ }
           </Dashboard>
         </div>
     );

@@ -16,7 +16,7 @@ export async function insertProduto(produto) {
 
     const docRef = await addDoc(collection(db, "produtos"), produto);
     return docRef.id;
-
+    
 };
 
 export async function listProdutos() {

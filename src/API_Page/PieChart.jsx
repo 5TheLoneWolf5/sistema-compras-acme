@@ -6,7 +6,6 @@ const PieChart = (props) => {
 
     useEffect(() => {
 
-
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
 
@@ -18,7 +17,6 @@ const PieChart = (props) => {
         const contatos = await listContatos();
         const fornecedores = await listFornecedores();
         
-
         // Create the data table.
         const data = new google.visualization.DataTable();
         data.addColumn('string', 'Fornecedor');

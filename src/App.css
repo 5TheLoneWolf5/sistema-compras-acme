@@ -35,18 +35,33 @@ html, body, #root {
     animation: slideIn 1.0s ease forwards;
 }
 
+.fadeIn {
+    animation: fadeIn 1.0s ease forwards;
+}
+
 @keyframes slideIn {
     100% { transform: translateX(0%); }
 }
 
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
 .linksNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
     color: white;
     background-color: #091e63;
     border-radius: 5px;
     width: 100%;
-    padding: 10px 0;
-    vertical-align: middle;
-    line-height: 60px;
+    padding: 10px;
+    /* display: inline-block; */
+    /* vertical-align: middle; */
+    /* line-height: normal; */
+    /* line-height: 60px; */
     z-index: 1;
 }
 
@@ -64,9 +79,39 @@ html, body, #root {
     min-height: 80px;
 }
 
+.sairNav {
+    background-color: #850900;
+    flex: 0 2 1%;
+    cursor: pointer;
+}
+
+.settingsNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1134a7;
+}
+
 ::-webkit-resizer {
     background-color: #d3d3d3;
     border-top-left-radius: 5px;
+}
+
+#botaoAuth, .modalButton {
+    cursor: pointer;
+}
+
+#botaoAuth:hover, .modalButton:hover {
+    background-color: #cfcfcf !important;
+}
+
+#botaoAuth:active, .modalButton:active {
+    background-color: #707070;
+}
+
+.modalButton {
+    border: 1px solid black;
+    background-color: #e0e0e0 !important;
 }
 
 @media (max-width: 330px) {
@@ -92,6 +137,10 @@ html, body, #root {
     .linksNav {
         flex-grow: 1;
         width: fit-content;
+    }
+
+    .columnRelationship {
+        margin: 0 2vw;
     }
 
 }

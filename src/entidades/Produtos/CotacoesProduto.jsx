@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { listCotacoes } from "../Cotacoes/CrudCotacao";
+import { listRequisicoes } from "../Requisicoes/CrudRequisicoes";
 import { formatDate } from "../../utils/functions";
 
 const Column = styled.aside`
@@ -11,7 +11,6 @@ const Column = styled.aside`
     border: 1px solid black;
     padding: 10px;
     height: fit-content;
-    margin: 0 10px;
 
 `;
 
@@ -35,21 +34,31 @@ const CotacoesProduto = (props) => {
 
         const generateCotacoes = async () => {
 
-            const data = await listCotacoes();
+            const data = await listRequisicoes();
             let result = [];
             let count = 0;
 
             for (let item in data) {
 
-                if (props.selectedData === data[item]["idProduto"]) {
-                    result.push(
-                        <Item key={count}>
-                            <CotacaoTitle>Produto {++count}</CotacaoTitle>
-                            {/* <p>Fornecedor: {data[item]["fornecedor"]}</p> */}
-                            <p>Preço: {data[item]["preco"]}</p>
-                            <p>Data da Compra: {formatDate(data[item]["dataCompra"])}</p>
-                            <hr />
-                        </Item>,);
+                // console.log(data[item]);
+
+                if (data[item]?.cotacoes && data[item]?.cotacoes.length > 0) {
+
+                    for (let cotacao in data[item].cotacoes) { 
+                        // console.log(data[item]);
+                        if (props.selectedData === data[item].cotacoes[cotacao]?.idProduto) {
+                            result.push(
+                                <Item key={count}>
+                                    <CotacaoTitle>Produto {++count}</CotacaoTitle>
+                                    {/* <p>Fornecedor: {data[item]["fornecedor"]}</p> */}
+                                    <p>Preço: {data[item].cotacoes[cotacao]["preco"]}</p>
+                                    <p>Fornecedor: {data[item].cotacoes[cotacao]["fornecedor"]}</p>
+                                    <hr />
+                                </Item>,);
+                        }
+    
+                    }
+    
                 }
 
             }
@@ -71,7 +80,7 @@ const CotacoesProduto = (props) => {
     }, [props.selectedData]); // So it updates even when between different values.
 
     return (
-        <Column>
+        <Column className="columnRelationship">
             <h2>Cotações(s) do Produto <u>{props.selectedProduto}</u></h2>
             {cotacoes.map(item => item)}
         </Column>

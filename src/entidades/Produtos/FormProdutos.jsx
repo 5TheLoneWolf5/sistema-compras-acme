@@ -1,56 +1,9 @@
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { insertProduto, obtainProduto, removeProduto, updateProduto } from "./CrudProdutos";
-import { listFornecedores } from "../Fornecedores/CrudFornecedores";
-
-const Form = styled.form`
-    width: 250px;
-    margin: 10px auto;
-    background-color: #F5F5F5;
-    border-radius: 4px;
-    padding: 5px;
-
-    & > *, & > * > * {
-        width: 100%;
-        padding: 5px;
-    }
-
-    & > label {
-        display: flex;
-        flex-direction: column;
-    }
-`;
-
-const CrudButtons = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-
-    & > label {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    & > label > input {
-        flex: 0.9 1 auto;
-    }
-
-    & > label > img {
-        width: 30px;
-    }
-`;
-
-const ErrorSection = styled.div`
-    margin: 15px auto;
-    width: 180px;
-    border: 5px red solid;
-    background-color: #f59987;
-    padding: 10px;
-    font-weight: bold;
-    margin-top: 20px;
-`;
+import ErrorSection from "../../componentes/ErrorSection";
+import CrudButtons from "../../componentes/CrudButtons";
+import FormCrud from "../../componentes/FormCrud";
 
 const FormProdutos = (props) => {
 
@@ -97,7 +50,7 @@ const FormProdutos = (props) => {
 
             }
             else if (props.selectedData && !isSubmitted) {
-
+                
                 const produto = await obtainProduto(props.selectedData);
                 setValue("produto", produto.produto);
                 // setValue("fornecedor", '{"0": "' + produto.idFornecedor + '", "1": "' + produto.fornecedor + '"}');
@@ -160,7 +113,7 @@ const FormProdutos = (props) => {
 
             await updateProduto(values);
             props.setSelectedData("");
-            props.setToggleClearRows(true);
+            props.setSelectedRow((item) => !item);
 
         } else {
             console.log("Dado não selecionado para ser atualizado.");
@@ -174,7 +127,7 @@ const FormProdutos = (props) => {
         if (props.selectedData) {
             await removeProduto(props.selectedData);
             props.setSelectedData("");
-            // props.setToggleClearRows(true);
+            props.setSelectedRow((item) => !item);
         } else {
             console.log("Dado não selecionado para ser removido.");
         }
@@ -183,7 +136,7 @@ const FormProdutos = (props) => {
 
     return (
         <div style={{flexGrow: "1"}}>
-            <Form onSubmit={handleSubmit(handleCreate)}>
+            <FormCrud onSubmit={handleSubmit(handleCreate)}>
                 <label htmlFor="produto">
                     Produto:<br />
                     <input {...register("produto", {
@@ -210,25 +163,11 @@ const FormProdutos = (props) => {
                         validate: {
                             maxLength: (value) => value.length <= 1000 || "O campo descrição não é válido. Deve ter 1000 ou menos caracteres.",
                         }
-                    })} maxLength={1000} className="textArea" type="textarea" />
+                    })} maxLength={1000} className="textArea" type="textarea"></textarea>
                 </label>
                 <br />
-
-                <CrudButtons>
-                    <label>
-                        <input type="submit" value="Criar" size={100} />
-                        <img src="./src/assets/add.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Editar" onClick={handleEdit}/>
-                        <img src="./src/assets/edit.svg" />
-                    </label>
-                    <label>
-                        <input type="button" value="Remover" onClick={handleRemove} />
-                        <img src="./src/assets/remove.svg" />
-                    </label>
-                </CrudButtons>
-            </Form>
+                <CrudButtons functionedit={handleEdit} functionremove={handleRemove} />
+            </FormCrud>
             <div>
                 {(errors.produto?.message) && (
                     <ErrorSection>{errors.produto.message}</ErrorSection>

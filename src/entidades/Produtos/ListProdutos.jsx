@@ -1,4 +1,5 @@
 import DataTable from "react-data-table-component";
+import ExportTableCSV from "../../componentes/ExportTableCSV";
 
 const ListProdutos = (props) => {
 
@@ -8,12 +9,18 @@ const ListProdutos = (props) => {
         //     props.setToggleClearRows(false);
         // }
 
-        props.setSelectedProduto(selectedRows[0]?.produto);
+        if (selectedRows?.length > 0) { 
+            
+            window.scrollTo(0, 0);
+
+            props.setSelectedProduto(selectedRows[0]?.produto);
+
+         }
 
         const idLastSelected = selectedRows[0]?.id;
 
         idLastSelected ? props.setSelectedData(idLastSelected) : props.setSelectedData("");
-
+    
     };
 
     const columns = [
@@ -53,9 +60,10 @@ const ListProdutos = (props) => {
                 selectableRowsHighlight
                 selectableSingle
                 selectableRowsSingle
-                clearSelectedRows={props.toggledClearRows}
+                clearSelectedRows={props.selectedRow}
                 onSelectedRowsChange={handleSelected}
                 className="dataTable"
+                actions={<ExportTableCSV data={props.data} />}
              />
         </>
     );

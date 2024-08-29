@@ -1,89 +1,98 @@
-import { useEffect } from "react";
-import { listFornecedores } from "../entidades/Fornecedores/CrudFornecedores";
-import { listCotacoes } from "../entidades/Cotacoes/CrudCotacao";
-import { formatDate } from "../utils/functions";
+// import { useEffect } from "react";
+// import { listRequisicoes } from "../entidades/Requisicoes/CrudRequisicoes";
+// import { formatDate } from "../utils/functions";
 
-const AreaChart = (props) => {
+// const AreaChart = (props) => {
 
-    useEffect(() => {
+//     useEffect(() => {
 
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
+//       google.charts.load('current', {'packages':['corechart']});
 
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
+//       const returnYearFromUnix = (time) => { { return (new Date(formatDate(time)).getFullYear()).toString() } };
 
-      const returnYearFromUnix = (time) => { { return (new Date(formatDate(time)).getFullYear()).toString() } };
+//       const drawChart = async () => {
 
-      const drawChart = async () => {
+//         const cotacoes = await listRequisicoes();
 
-        const cotacoes = await listCotacoes();
+//         const data = new google.visualization.DataTable();
+//         data.addColumn("string", "Ano");
+//         data.addColumn("number", "Preço total de Cotações por Ano");
 
-        // Create the data table.
-        const data = new google.visualization.DataTable();
-        data.addColumn("string", "Ano");
-        data.addColumn("number", "Preço total de Cotações por Ano");
+//         const groupedValues = [];
+//         // console.log(cotacoes);
 
-        const groupedValues = [];
-        // console.log(cotacoes);
+//         // console.time("Loop");
 
-        for (let i = 0; i < cotacoes.length ; i++) {
+//         for (let i = 0; i < cotacoes.length ; i++) {
 
-          let repeatedDate = false;
+//           let repeatedDate = false;
 
-          // console.log(cotacoes[i].dataCompra + " data");
-          for (let j = 0; j < groupedValues.length ; j++) {
-            // console.log(groupedValues[j].year);
-            if (returnYearFromUnix(cotacoes[i].dataCompra) === groupedValues[j].year) {
-              // console.log(cotacoes[i].dataCompra);
-              repeatedDate = true;
-            }
-          }
+//           // Verifying if year has already been counted.
 
-          if (repeatedDate) continue;
+//           // console.log(cotacoes[i].dataCompra + " data");
+//           for (let j = 0; j < groupedValues.length ; j++) {
+//             // console.log(groupedValues[j].year);
+//             if (returnYearFromUnix(cotacoes[i].dataCompra) === groupedValues[j].year) {
+//               // console.log(cotacoes[i].dataCompra);
+//               repeatedDate = true;
+//               break;
+//             }
+//           }
 
-          groupedValues.push({ year: returnYearFromUnix(cotacoes[i].dataCompra), totalPrice: cotacoes[i].preco });
+//           if (repeatedDate) continue;
 
-        };
+//           // Compounding the total price for the respective year inside this iteration.
 
-        // const reducedYears = [...new Set(years)];
+//           let totalYearPrice = 0;
 
-        groupedValues.sort((a, b) => +a.year - +b.year);
-        console.log(groupedValues);
+//           for (let j = 0; j < cotacoes.length ; j++) {
+//             if (returnYearFromUnix(cotacoes[i].dataCompra) === returnYearFromUnix(cotacoes[j].dataCompra)) {
+//               totalYearPrice += cotacoes[j].preco;
+//             }
+//           }
 
-        for (let i = 0; i < groupedValues.length; i++) {
+//           // console.log(totalYearPrice);
 
-          data.addRows([
-            [groupedValues[i].year, groupedValues[i].totalPrice],
-          ]);
+//           groupedValues.push({ year: returnYearFromUnix(cotacoes[i].dataCompra), totalPrice: totalYearPrice });
 
-        }
+//         };
 
-        // Set chart options
-        const options = {'title':'Preço total de Cotações por Ano',
-                        'hAxis': { title: 'Ano' },
-                        'vAxis': { title: 'Preço' },
-                        'width':599,
-                        'height':300};
+//         // console.timeEnd("Loop");
 
-        // Instantiate and draw our chart, passing in some options.
-        const chart = new google.visualization.AreaChart(document.getElementById('area_div'));
-        chart.draw(data, options);
+//         // const reducedYears = [...new Set(years)];
 
-        }
+//         groupedValues.sort((a, b) => +a.year - +b.year);
+//         // console.log(groupedValues);
 
-        // Set a callback to run when the Google Visualization API is loaded.
-        google.charts.setOnLoadCallback(drawChart);
+//         for (let i = 0; i < groupedValues.length; i++) {
 
-    }, []);
+//           data.addRows([
+//             [groupedValues[i].year, groupedValues[i].totalPrice],
+//           ]);
 
-    return (
-        <>
-          <div id="area_div"></div>
-        </>
-    );
+//         }
 
-};
+//         const options = {'title':'Preço total de Cotações por Ano',
+//                         'hAxis': { title: 'Ano' },
+//                         'vAxis': { title: 'Preço' },
+//                         'width':599,
+//                         'height':300};
 
-export default AreaChart;
+//         const chart = new google.visualization.AreaChart(document.getElementById('area_div'));
+//         chart.draw(data, options);
+
+//         }
+
+//         google.charts.setOnLoadCallback(drawChart);
+
+//     }, []);
+
+//     return (
+//         <>
+//           <div id="area_div"></div>
+//         </>
+//     );
+
+// };
+
+// export default AreaChart;

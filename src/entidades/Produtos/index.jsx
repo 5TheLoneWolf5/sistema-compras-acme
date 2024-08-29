@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CotacoesProduto from "./CotacoesProduto";
 import FormProdutos from "./FormProdutos";
 import ListProdutos from "./ListProdutos";
 import styled from "styled-components";
 import { listProdutos } from "./CrudProdutos";
+import AuthContext from "../../contexts/AuthContext";
+import Filter from "../../componentes/Filter";
 
 const Container = styled.div`
 
@@ -14,14 +16,10 @@ const Container = styled.div`
 const Main = styled.main`
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
-
-    @media (min-width: ${(props) => props.sizes.small}) {
-
-        flex-direction: row;
-
-    }
 
 `;
 
@@ -29,8 +27,18 @@ const Produtos = (props) => {
 
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
-    const [toggledClearRows, setToggleClearRows] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(false);
     const [selectedProduto, setSelectedProduto] = useState("");
+    const [filter, setFilter] = useState("");
+    const [filteredData, setFilteredData] = useState([]);
+
+    const auth = useContext(AuthContext);
+
+    useEffect(() => {
+        
+        auth.setUserAuth({ ...auth.userAuth, route: window.location.pathname });
+
+    }, []);
 
     useEffect(() => {
 
@@ -47,15 +55,22 @@ const Produtos = (props) => {
 
     }, [selectedData]);
 
+    useEffect(() => {
+        
+        setFilteredData(data.filter((item) => item?.produto.toLowerCase().startsWith(filter.toLowerCase())));
+
+    }, [filter]);
+
     return (
         <Container>
             <h1>Registrar e Ler Produtos</h1>
             <p>Você pode selecionar um produto na tabela para obter suas cotações.</p>
             <Main sizes={props.sizes}>
-                <FormProdutos selectedData={selectedData} setToggleClearRows={setToggleClearRows} setSelectedData={setSelectedData} />
+                <FormProdutos selectedData={selectedData} setSelectedRow={setSelectedRow} setSelectedData={setSelectedData} />
                 {(selectedData && selectedData != "Criando...") && <CotacoesProduto selectedData={selectedData} selectedProduto={selectedProduto} />}
             </Main>
-                <ListProdutos setSelectedData={setSelectedData} data={data} setSelectedProduto={setSelectedProduto} />
+                <Filter filter={filter} setFilter={setFilter} placeholder="Pesquise pelo produto..." />
+                <ListProdutos setSelectedData={setSelectedData} data={filter ? filteredData : data} setSelectedProduto={setSelectedProduto} selectedRow={selectedRow} />
         </Container>
     );
 
