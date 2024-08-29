@@ -84,7 +84,7 @@ const CotacaoCreate = (props) => {
 
             id = props.data.cotacoes[props.data.cotacoes.length - 1].id + 1;
 
-            newRequestList = { ...props.data, cotacoes: [...props.data?.cotacoes, { id: id, preco: +inputPreco, idProduto: idProduto, produto: produtoValue, idFornecedor: idFornecedor, fornecedor: fornecedorValue, ehAprovada: false, }] };
+            newRequestList = { ...props.data, status: props.changeStatus(props.data.cotacoes.length + 1), cotacoes: [...props.data?.cotacoes, { id: id, preco: +inputPreco, idProduto: idProduto, produto: produtoValue, idFornecedor: idFornecedor, fornecedor: fornecedorValue, ehAprovada: false, }] };
 
             await updateRequisicao(newRequestList, props.data.id);
 
@@ -92,7 +92,7 @@ const CotacaoCreate = (props) => {
 
             id = 1;
 
-            newRequestList = { ...props.data, cotacoes: [{ id: id, preco: +inputPreco, idProduto: idProduto, produto: produtoValue, idFornecedor: idFornecedor, fornecedor: fornecedorValue, ehAprovada: false, }] };
+            newRequestList = { ...props.data, status: props.changeStatus(props.data.cotacoes.length + 1), cotacoes: [{ id: id, preco: +inputPreco, idProduto: idProduto, produto: produtoValue, idFornecedor: idFornecedor, fornecedor: fornecedorValue, ehAprovada: false, }] };
 
             await updateRequisicao(newRequestList, props.data.id);
 

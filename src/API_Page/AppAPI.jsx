@@ -23,7 +23,7 @@ const AppAPI = (props) => {
           <Dashboard>
             <PieChart />
             <ColumnChart />
-            {/* <AreaChart /> */}
+            {/* <AreaChart /> */} { /* Changes in the system made this component obsolete. */ }
           </Dashboard>
         </div>
     );

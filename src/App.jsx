@@ -1,9 +1,8 @@
 import "./App.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Cadastro, Carregando, Configuracoes, Contatos, Requisicoes, Desconhecida, Fornecedores, Home, Login, Navbar, Produtos, Rodape } from "./entidades";
+import { Cadastro, Carregando, Configuracoes, Contatos, Requisicoes, Desconhecida, Fornecedores, Home, Login, Navbar, Produtos, Rodape, Compras } from "./entidades";
 import { Suspense, useEffect, useState } from "react";
 import AuthContext from "./contexts/AuthContext";
-import { auth, db } from "./../../credentials/auth";
 import { doc, getDoc } from "firebase/firestore";
 
 const sizes = {
@@ -14,7 +13,7 @@ const sizes = {
 
 };
 
-const App = () => {
+const App = (props) => {
 
   // console.log(app);
   // console.log(auth);
@@ -24,7 +23,7 @@ const App = () => {
       email: null,
       route: "/",
       role: "",
-      auth: auth,
+      auth: props.auth,
     }
   );
   
@@ -34,10 +33,10 @@ const App = () => {
 
     // console.log("Setting user saved in browser storage..");
 
-    auth.onAuthStateChanged(async (user) => {
+    props.auth.onAuthStateChanged(async (user) => {
 
       if (user) {
-        const docRef = doc(db, "roles", user.uid);
+        const docRef = doc(props.db, "roles", user.uid);
         // console.log(user);
         // const uid = user.uid;
         // console.log(user.providerData[0]);
@@ -76,20 +75,21 @@ const App = () => {
         <AuthContext.Provider value={ { userAuth, setUserAuth } }>
           <div id="header-and-main"> { /* onLoad={authUser} */}
             <Suspense fallback={<Carregando />}>
-              { userAuth.isLogged && <Navbar sizes={sizes} auth={auth} navigate={navigate} /> }
+              { userAuth.isLogged && <Navbar sizes={sizes} auth={props.auth} navigate={navigate} /> }
               <Routes>
                 {/* If user has no authorization, the route must not be available to them. */}
                 { !userAuth.isLogged ? 
                 <>
-                  <Route path="/login" element={<Login sizes={sizes} auth={auth} navigate={navigate} />} />
-                  <Route path="/cadastro" element={<Cadastro sizes={sizes} auth={auth} db={db} />} />
+                  <Route path="/login" element={<Login sizes={sizes} auth={props.auth} navigate={navigate} />} />
+                  <Route path="/cadastro" element={<Cadastro sizes={sizes} auth={props.auth} db={props.db} />} />
                 </> :
                 <>
                   <Route path="/" element={<Home />} />
                   <Route path="/requisicoes" element={<Requisicoes sizes={sizes} />} />
-                  <Route path="/configuracoes" element={<Configuracoes db={db} />} />
+                  <Route path="/configuracoes" element={<Configuracoes db={props.db} />} />
                   { userAuth.role === "admin" && 
                   <>
+                    <Route path="/compras" element={<Compras sizes={sizes} />} />
                     <Route path="/produtos" element={<Produtos sizes={sizes} />} />
                     <Route path="/fornecedores" element={<Fornecedores sizes={sizes} />} />
                     <Route path="/contatos" element={<Contatos />} />

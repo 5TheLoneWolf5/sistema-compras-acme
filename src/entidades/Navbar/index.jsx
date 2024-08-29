@@ -32,6 +32,7 @@ const Nav = styled.nav`
     text-align: center;
     font-size: 0.9rem;
     transform: translateX(100%);
+    overflow-y: auto;
     @media (min-width: ${(props) => props.sizes.small}) {
         font-size: 1.2rem;
         position: static;
@@ -60,7 +61,7 @@ const Menu = styled.img`
 `;
 
 const Blackspace = styled.div`
-    width: 60vw;
+    width: 100vw;
     height: 100vh;
     position: absolute;
     background-color: black;
@@ -173,6 +174,7 @@ const Navbar = (props) => {
                     <Nav className="slideIn" sizes={props.sizes}>
                         { auth.userAuth.role === "admin" &&
                         <>
+                            <Link onClick={handleMenu} className="linksMenu linksNav" to="/compras">Compras</Link>
                             <Link onClick={handleMenu} className="linksMenu linksNav" to="/produtos">Produtos</Link>
                             <Link onClick={handleMenu} className="linksMenu linksNav" to="/fornecedores">Fornecedores</Link>
                             <Link onClick={handleMenu} className="linksMenu linksNav" to="/contatos">Contatos</Link>

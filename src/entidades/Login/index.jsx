@@ -54,7 +54,7 @@ const Login = (props) => {
                     email: user.email,
                     isUser: true,
                 }});
-                
+
                 // console.log(auth);
                 props.navigate("/");
             }
@@ -73,7 +73,7 @@ const Login = (props) => {
             <BackgroundContainer>
                 <ContainerFormAuth sizes={props.sizes}>
                     <Icon style={{ border: "1px solid black", borderRadius: "10px", margin: "10px", backgroundColor: "white" }} src="./src/assets/logo.svg" width={80} />
-                    <h1>ACME<hr />Login</h1>
+                    <h1>ACME<br /><span style={{ fontSize: "24px" }}>Sistema de Compras</span><hr />Login</h1>
                     <FormAuth onSubmit={handleSubmit(handleCreate)}>
                         <LabelAuth htmlFor="email">
                             <input {...register("email", {
@@ -89,7 +89,7 @@ const Login = (props) => {
                                     value: 8,
                                     message: "A senha de login precisa haver no mínimo 8 caracteres."
                                 },
-                            })} type={togglePassword ? "text" : "password"}  placeholder="Senha" />
+                            })} type={togglePassword ? "text" : "password"}  placeholder="Senha" autoComplete="on" />
                             <Icon src={ togglePassword ? "./src/assets/visible.svg" : "./src/assets/hidden.svg"} style={iconStyles} onClick={handlePassword} />
                         </LabelAuth>
                         <LabelAuth htmlFor="botaoAuth">

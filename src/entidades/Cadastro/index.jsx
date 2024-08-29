@@ -76,7 +76,7 @@ const Cadastro = (props) => {
         <BackgroundContainer>
             <ContainerFormAuth sizes={props.sizes}>
                 <Icon style={{ border: "1px solid black", borderRadius: "10px", margin: "10px", backgroundColor: "white" }} src="./src/assets/logo.svg" width={80} />
-                <h1>ACME<hr />Cadastro</h1>
+                <h1>ACME<br /><span style={{ fontSize: "24px" }}>Sistema de Compras</span><hr />Cadastro</h1>
                 <FormAuth onSubmit={handleSubmit(handleCreate)}>
                     <LabelAuth htmlFor="email">
                         <input {...register("email", {
@@ -92,15 +92,14 @@ const Cadastro = (props) => {
                                 value: 8,
                                 message: "A senha precisa ter no mínimo 8 caracteres."
                             },
-                        })} type={togglePassword ? "text" : "password"}  placeholder="Senha" />
+                        })} type={togglePassword ? "text" : "password"}  placeholder="Senha" autoComplete="off" />
                         <Icon src={ togglePassword ? "./src/assets/visible.svg" : "./src/assets/hidden.svg"} style={iconStyles} onClick={handlePassword} />
                     </LabelAuth>
                     <LabelAuth htmlFor="confirmPassword">
                         <input {...register("confirmPassword", {
                             require: "É necessário confirmar a senha.",
                             validate: (value) => value === getValues("password") || "Senhas devem ser as mesmas.",
-                        })} type={toggleConfirmPassword ? "text" : "password"} placeholder="Confirmar Senha"
-                    />
+                        })} type={toggleConfirmPassword ? "text" : "password"} placeholder="Confirmar Senha" autoComplete="off" />
                     <Icon src={ toggleConfirmPassword ? "./src/assets/visible.svg" : "./src/assets/hidden.svg"} style={iconStyles} onClick={handleConfirmPassword} />
                     </LabelAuth>
                     <LabelAuth htmlFor="botaoAuth">

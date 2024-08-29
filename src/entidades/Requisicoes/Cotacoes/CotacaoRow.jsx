@@ -143,6 +143,8 @@ const CotacaoRow = (props) => {
 
     const auth = useContext(AuthContext);
 
+    // useEffect(() => console.log(inputProduto));
+
     const handleApprove = () => {
 
         let tempArray = structuredClone(props.request.cotacoes);
@@ -198,7 +200,7 @@ const CotacaoRow = (props) => {
     const handleDelete = async () => {
 
         // console.log({...props.request, cotacoes: [...props.request.cotacoes.filter((item) => item.id != props.data.id)]});
-        const newRequestList = {...props.request, cotacoes: [...props.request.cotacoes.filter((item) => item.id != props.quotation.id)]};
+        const newRequestList = {...props.request, status: props.changeStatus(props.request.cotacoes.length - 1), cotacoes: [...props.request.cotacoes.filter((item) => item.id != props.quotation.id)]};
         await updateRequisicao(newRequestList, props.request.id);
         props.setSelectedRow(newRequestList);
 
@@ -209,7 +211,7 @@ const CotacaoRow = (props) => {
             <ContainerCotacao sizes={props.sizes} $approvedQuotationId={props.approvedQuotation?.id} $quotationId={props.quotation.id}>
                 <ApproveSection sizes={props.sizes}>
                     <span style={{ fontSize: "1.5em", border: "1px solid", borderRadius: "30px", padding: "8px 10px", backgroundColor: "white" }}>{props.idx + 1}ª</span>
-                    {(!props.approvedQuotation && auth.userAuth.role === "admin") && <ApproveButton onClick={handleApprove} disabled={toggleEdit}><img src="../src/assets/approve.svg" width="30px"/>Aprovar?</ApproveButton>}
+                    {(!props.approvedQuotation && auth.userAuth.role === "admin" && props.request.cotacoes.length === 3) && <ApproveButton onClick={handleApprove} disabled={toggleEdit}><img src="../src/assets/approve.svg" width="30px"/>Aprovar?</ApproveButton>}
                 </ApproveSection>
                 <EditSection sizes={props.sizes}>
                     <input type="number" min={0} value={inputPreco} onChange={(e) => setInputPreco(e.target.value)} disabled={!toggleEdit} />

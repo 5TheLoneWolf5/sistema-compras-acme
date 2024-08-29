@@ -51,6 +51,12 @@ const Configuracoes = (props) => {
 
     const auth = useContext(AuthContext);
 
+    useEffect(() => {
+
+        auth.setUserAuth({ ...auth.userAuth, route: window.location.pathname });
+
+    }, []);
+
     return (
         <ContainerConfiguracoes>
             <h1>Configurações</h1>

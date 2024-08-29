@@ -1,17 +1,33 @@
 import DataTable from "react-data-table-component";
 import { formatDate } from "../../utils/functions";
 import Cotacoes from "./Cotacoes";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
+import ExportTableCSV from "../../componentes/ExportTableCSV";
 
 const ListRequisicoes = (props) => {
 
+    const reqNoQuo = () => {
+
+        const noQuo = structuredClone(props.data);
+        // console.log(noQuo);
+
+        for (let i in noQuo) {
+            delete noQuo[i].cotacoes;
+            noQuo[i].dataAbertura = formatDate(noQuo[i].dataAbertura); 
+        }
+
+        return noQuo;
+
+    };
+
     const [activateModal, setActivateModal] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
-
-    const possibleStatus = ["Aberta", "Em Cotação", "Cotada"];
+    const memoReqNoQuo = useMemo(reqNoQuo, [props.data]);
 
     const auth = useContext(AuthContext);
+
+    // useEffect(() => console.log(memoReqNoQuo));
 
     useEffect(() => {
 
@@ -33,21 +49,8 @@ const ListRequisicoes = (props) => {
         if (selectedRows?.length > 0) { 
 
             window.scrollTo(0, 0);
-            props.setSelectedStatus(() => {
-                let tempArray = [possibleStatus[0]];
 
-                if (selectedRows[0].cotacoes.length >= 1) {
-                    tempArray.push(possibleStatus[1]);
-                }
-
-                if (selectedRows[0].cotacoes.length === 3) {
-                    tempArray.push(possibleStatus[2]);
-                }
-
-                return tempArray;
-            });
-
-         }
+        }
         
         // console.log(idLastSelected);
 
@@ -57,7 +60,6 @@ const ListRequisicoes = (props) => {
             props.setSelectedData(idLastSelected)
         } else {
             props.setSelectedData("");
-            props.setSelectedStatus([])
         }
 
     };
@@ -123,6 +125,7 @@ const ListRequisicoes = (props) => {
                 selectableRowsSingle
                 clearSelectedRows={props.selectedRow}
                 onSelectedRowsChange={handleSelected}
+                actions={<ExportTableCSV data={memoReqNoQuo} />}
              />
              {activateModal && <Cotacoes data={selectedRow} activateModal={activateModal} setActivateModal={setActivateModal} sizes={props.sizes} setSelectedRow={setSelectedRow} selectedRow={selectedRow} />}
         </>

@@ -10,6 +10,8 @@ const BackgroundModal = styled.div`
     top: 0;
     left: 0;
     z-index: 2;
+    backdrop-filter: blur(5px);
+    // filter: blur(4px);
 
 `;
 

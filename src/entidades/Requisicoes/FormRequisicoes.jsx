@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { insertRequisicao, obtainRequisicao, removeRequisicao, updateRequisicao } from "./CrudRequisicoes";
-import { useContext, useEffect, useState } from "react";
+import { insertRequisicao, obtainRequisicao, removeRequisicao } from "./CrudRequisicoes";
+import { useContext, useEffect } from "react";
 import { regexNumber } from "../../utils/regex";
 import ErrorSection from "../../componentes/ErrorSection";
 import FormCrud from "../../componentes/FormCrud";
@@ -61,7 +61,6 @@ const FormRequisicoes = (props) => {
                 setValue("requisicao", requisicao.requisicao);
                 setValue("justificativa", requisicao.justificativa);
                 setValue("quantidade", requisicao.quantidade);
-                auth.userAuth.role === "admin" ? setValue("status", requisicao.status) : null;
                 // console.log(requisicao.status);
                 // setValue("idFornecedor", contato.idFornecedor);
                 // console.log(getValues("nome"));
@@ -94,29 +93,6 @@ const FormRequisicoes = (props) => {
 
     };
 
-    const handleEdit = async () => {
-
-        if (props.selectedData) {
-
-            // console.log(getValues());
-            
-            // const values = getValues();
-            // values.id = props.selectedData;
-            // delete values["dataAbertura"];
-
-            // console.log(getValues());
-
-            await updateRequisicao(getValues(), props.selectedData);
-            props.setSelectedData("");
-            props.setSelectedRow((item) => !item);
-            props.setSelectedStatus([]);
-
-        } else {
-            console.log("Dado não selecionado para ser atualizado.");
-        }
-
-    };
-
     const handleRemove = async () => {
 
         if (props.selectedData) {
@@ -124,7 +100,6 @@ const FormRequisicoes = (props) => {
             await removeRequisicao(props.selectedData);
             props.setSelectedData("");
             props.setSelectedRow((item) => !item);
-            props.setSelectedStatus([]);
 
         } else {
 
@@ -169,24 +144,10 @@ const FormRequisicoes = (props) => {
                 </label>
                 <br />
             </>}
-                {auth.userAuth.role === "admin" &&
-                <>
-                    <label htmlFor="status">
-                        Status:<br />
-                        <select {...register("status")} className="selectNome">
-                            {props.selectedStatus.map((item, idx) => <option key={idx} value={item}>{item}</option>)}
-                        </select>
-                    </label>
-                    <br />
-                </>}
                 <CrudButtonsElements>
                     {auth.userAuth.role === "user" && <label>
                         <input type="submit" value="Criar" size={100} />
                         <img src="./src/assets/add.svg" />
-                    </label>}
-                    {auth.userAuth.role === "admin" && <label>
-                        <input type="button" value="Editar" onClick={handleEdit}/>
-                        <img src="./src/assets/edit.svg" />
                     </label>}
                     <label>
                         <input type="button" value="Remover" onClick={handleRemove} />
@@ -203,9 +164,6 @@ const FormRequisicoes = (props) => {
                 )}
                 {errors.quantidade?.message && (
                     <ErrorSection>{errors.quantidade.message}</ErrorSection>
-                )}
-                {errors.status?.message && (
-                    <ErrorSection>{errors.status.message}</ErrorSection>
                 )}
             </div>
         </div>

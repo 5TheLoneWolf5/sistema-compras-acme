@@ -9,7 +9,6 @@ const Requisicoes = (props) => {
 
     const [data, setData] = useState([]);
     const [selectedData, setSelectedData] = useState("");
-    const [selectedStatus, setSelectedStatus] = useState([]);
     const [selectedRow, setSelectedRow] = useState(false);
     const [filter, setFilter] = useState("");
     const [filteredData, setFilteredData] = useState([]);
@@ -55,9 +54,9 @@ const Requisicoes = (props) => {
         <>
             <h1>Registrar e Ler Requisições</h1>
             <p>Clique em uma requisição para visualizar suas cotações.</p>
-            <FormRequisicoes selectedData={selectedData} setSelectedData={setSelectedData} setSelectedRow={setSelectedRow} selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
+            <FormRequisicoes selectedData={selectedData} setSelectedData={setSelectedData} setSelectedRow={setSelectedRow} />
             <Filter filter={filter} setFilter={setFilter} placeholder="Pesquise pelo usuário ou requisição..." />
-            <ListRequisicoes setSelectedData={setSelectedData} setSelectedStatus={setSelectedStatus} data={filter ? filteredData : data} sizes={props.sizes} selectedRow={selectedRow} selectedData={selectedData} />
+            <ListRequisicoes setSelectedData={setSelectedData} data={filter ? filteredData : data} sizes={props.sizes} selectedRow={selectedRow} selectedData={selectedData} />
         </>
     );
 

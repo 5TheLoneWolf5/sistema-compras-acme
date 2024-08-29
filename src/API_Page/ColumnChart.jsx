@@ -12,7 +12,7 @@ const ColumnChart = (props) => {
 
         const requisicoes = await listRequisicoes();
         const fornecedores = await listFornecedores();
-        console.log(requisicoes);
+        // console.log(requisicoes);
 
         const data = new google.visualization.DataTable();
         data.addColumn("string", "Fornecedor");
@@ -20,15 +20,17 @@ const ColumnChart = (props) => {
 
         for (let i = 0; i < fornecedores.length; i++) {
 
-          // for (let j = 0; j < requisicoes.length; i++) { 
+          let tempArray = [];
 
-          //   for (let k = 0; k < requisicoes[j].cotacoes.length; k++) {
-              data.addRows([
-                [fornecedores[i].nome, requisicoes[j].cotacoes.filter(y => y.idFornecedor === fornecedores[i].id).length],
-              ]);
-          //   }
+          for (let j = 0; j < requisicoes.length; j++) {
 
-          // }
+            if (requisicoes[j]?.cotacoes.length > 0) {
+                tempArray.push(...requisicoes[j].cotacoes.filter(y => y.idFornecedor === fornecedores[i].id));
+            }
+
+          }
+
+          data.addRows([[fornecedores[i].nome, tempArray.length]]);
 
         }
 

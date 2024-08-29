@@ -7,10 +7,27 @@ import { formatDate } from "../../../utils/functions";
 import AuthContext from "../../../contexts/AuthContext";
 import { listProdutos } from "../../Produtos/CrudProdutos";
 import { listFornecedores } from "../../Fornecedores/CrudFornecedores";
+import ExportTableCSV from "../../../componentes/ExportTableCSV";
 
 const CotacaoInfo = styled.div`
 
 `;
+
+const changeStatus = (cotacoesLength) => {
+
+    let result = "Aberta";
+
+    if (cotacoesLength >= 1 && cotacoesLength < 3 ) {
+        result = "Em Cotação";
+    }
+
+    if (cotacoesLength === 3) {
+        result = "Cotada";
+    }
+
+    return result;
+
+};
 
 const Cotacoes = (props) => {
 
@@ -32,6 +49,8 @@ const Cotacoes = (props) => {
                 result.push(<option key={data[item]['id']} value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["produto"] + '"}'}>{data[item]['produto']}</option>);
                 // console.log(result);
             }
+
+            // console.log(result);
     
             // Object.keys(data).map((item, idx) => <option>{data[item]["nome"]}</option>);
     
@@ -76,16 +95,17 @@ const Cotacoes = (props) => {
             <Modal activateModal={props.activateModal} setActivateModal={props.setActivateModal}>
                 <CotacaoInfo>
                     <h2>Cotações</h2>
-                    <p>Requisição aberta por <strong>{props.data.emailUsuario}</strong> ({formatDate(props.data.dataAbertura).split(" ").join(" — ")}).</p>
-                    <p>Pedido: {props.data.requisicao}</p>
-                    <p>Justificativa: {props.data.justificativa}</p>
-                    <p>Status: {props.data.status}.</p>
+                    <p>• Requisição aberta por: <strong>{props.data.emailUsuario}</strong> ({formatDate(props.data.dataAbertura).split(" ").join(" — ")}).</p>
+                    <p>• Pedido: {props.data.requisicao}</p>
+                    <p>• Justificativa: {props.data.justificativa}</p>
+                    <p>• Status: {props.data.status}.</p>
                     {auth.userAuth.role === "admin" && <p>Cadastre <u>até 3 cotações</u> e aprove a desejada.</p>}
+                    <ExportTableCSV data={props.data?.cotacoes} />
                 </CotacaoInfo>
-                {(auth.userAuth.role === "admin" && props.data?.cotacoes.length < 3) && <CotacaoCreate data={props.data} setSelectedRow={props.setSelectedRow} produto={produto} fornecedor={fornecedor} />}
+                {(auth.userAuth.role === "admin" && props.data?.cotacoes.length < 3) && <CotacaoCreate data={props.data} setSelectedRow={props.setSelectedRow} produto={produto} fornecedor={fornecedor} changeStatus={changeStatus} />}
                 <br />
                 {props.data?.cotacoes && props.data.cotacoes.map((item, idx) => (
-                    <CotacaoRow key={idx} quotation={item} request={props.data} idx={idx} approvedQuotation={approvedQuotation} setApprovedQuotation={setApprovedQuotation} sizes={props.sizes} setSelectedRow={props.setSelectedRow} produto={produto} fornecedor={fornecedor} />
+                    <CotacaoRow key={idx} quotation={item} request={props.data} idx={idx} approvedQuotation={approvedQuotation} setApprovedQuotation={setApprovedQuotation} sizes={props.sizes} setSelectedRow={props.setSelectedRow} produto={produto} fornecedor={fornecedor} changeStatus={changeStatus} />
                 ))}
             </Modal>
         </>

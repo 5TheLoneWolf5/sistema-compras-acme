@@ -1,4 +1,5 @@
 import DataTable from "react-data-table-component";
+import ExportTableCSV from "../../componentes/ExportTableCSV";
 
 const ListFornecedores = (props) => {
 
@@ -67,6 +68,7 @@ const ListFornecedores = (props) => {
                 clearSelectedRows={props.selectedRow}
                 onSelectedRowsChange={handleSelected}
                 className="dataTable"
+                actions={<ExportTableCSV data={props.data} />}
              />
         </>
     );
