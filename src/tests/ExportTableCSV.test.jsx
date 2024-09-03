@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import "@testing-library/jest-dom";
 import ExportTableCSV from "../componentes/ExportTableCSV";
 
-describe("Compras", () => {
-  it("has text on page", async () => {
+describe("ExportTableCSV", () => {
+  it("has correct text on page", async () => {
 
     render(<ExportTableCSV />);
 

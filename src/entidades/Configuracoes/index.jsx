@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ButtonModal from "../../componentes/ButtonModal";
 import AddAdminModal from "../../componentes/Modals/AddAdminModal";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
 
 const UserArea = styled.div`
