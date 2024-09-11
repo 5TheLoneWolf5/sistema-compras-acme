@@ -62,6 +62,7 @@ const Cadastro = (props) => {
         await setDoc(doc(props.db, "roles", user.uid), {
             email: user.email,
             role: "user",
+            isBlocked: false,
         })
         .catch((e) => {
             console.log(`Error when granting user role: ${e.message}.`);

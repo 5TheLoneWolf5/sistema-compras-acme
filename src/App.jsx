@@ -1,9 +1,9 @@
 import "./App.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Cadastro, Carregando, Configuracoes, Contatos, Requisicoes, Desconhecida, Fornecedores, Home, Login, Navbar, Produtos, Rodape, Compras } from "./entidades";
+import { Cadastro, Carregando, Configuracoes, Contatos, Requisicoes, Desconhecida, Fornecedores, Home, Login, Navbar, Produtos, Rodape, Compras, BlockedHome } from "./entidades";
 import { Suspense, useEffect, useState } from "react";
 import AuthContext from "./contexts/AuthContext";
-import { doc, getDoc } from "firebase/firestore";
+import { obtainUsuario } from "./entidades/Configuracoes/GerenciaUsuarios/CrudUsuarios";
 
 const sizes = {
 
@@ -20,10 +20,11 @@ const App = (props) => {
   const [userAuth, setUserAuth] = useState(
     {
       isLogged: false, // localStorage.getItem("user") == "",
-      email: null,
+      email: "",
       route: "/",
       role: "",
       auth: props.auth,
+      isBlocked: false,
     }
   );
   
@@ -36,17 +37,12 @@ const App = (props) => {
     props.auth.onAuthStateChanged(async (user) => {
 
       if (user) {
-        const docRef = doc(props.db, "roles", user.uid);
-        // console.log(user);
-        // const uid = user.uid;
-        // console.log(user.providerData[0]);
 
-        const docSnap = await getDoc(docRef);
+        const data = await obtainUsuario(user.uid);
+        // console.log(data);
 
-        if (docSnap.exists()) {
-          // console.log(docSnap.data().role);
-          setUserAuth((prevItems) => ({ ...prevItems, uid: user.uid, email: user.providerData[0].email, isLogged: true, role: docSnap.data().role }));
-        }
+        // console.log(docSnap.data().role);
+        setUserAuth((prevItems) => ({ ...prevItems, uid: user.uid, email: user.providerData[0].email, isLogged: true, role: data.role, isBlocked: data.isBlocked, }));
         
       }
 
@@ -84,16 +80,21 @@ const App = (props) => {
                   <Route path="/cadastro" element={<Cadastro sizes={sizes} auth={props.auth} db={props.db} />} />
                 </> :
                 <>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/requisicoes" element={<Requisicoes sizes={sizes} />} />
-                  <Route path="/configuracoes" element={<Configuracoes db={props.db} />} />
-                  { userAuth.role === "admin" && 
+                  { !userAuth.isBlocked ? (
                   <>
-                    <Route path="/compras" element={<Compras sizes={sizes} />} />
-                    <Route path="/produtos" element={<Produtos sizes={sizes} />} />
-                    <Route path="/fornecedores" element={<Fornecedores sizes={sizes} />} />
-                    <Route path="/contatos" element={<Contatos />} />
-                  </> }
+                    <Route path="/" element={<Home />} />
+                    <Route path="/requisicoes" element={<Requisicoes sizes={sizes} />} />
+                    <Route path="/configuracoes" element={<Configuracoes db={props.db} sizes={sizes} />} />
+                    { userAuth.role === "admin" && 
+                    <>
+                      <Route path="/compras" element={<Compras sizes={sizes} />} />
+                      <Route path="/produtos" element={<Produtos sizes={sizes} />} />
+                      <Route path="/fornecedores" element={<Fornecedores sizes={sizes} />} />
+                      <Route path="/contatos" element={<Contatos />} />
+                    </> 
+                    }
+                  </>
+                  ) : <Route path="/" element={<BlockedHome />} /> }
                 </>
                 }
                 <Route path="/*" element={<Desconhecida />} />

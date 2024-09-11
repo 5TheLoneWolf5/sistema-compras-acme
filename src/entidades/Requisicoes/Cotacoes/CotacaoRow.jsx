@@ -145,7 +145,7 @@ const CotacaoRow = (props) => {
 
     // useEffect(() => console.log(inputProduto));
 
-    const handleApprove = () => {
+    const handleApprove = async () => {
 
         let tempArray = structuredClone(props.request.cotacoes);
         tempArray.splice(tempArray.findIndex((item) => item.id === props.quotation.id), 1);
@@ -154,7 +154,7 @@ const CotacaoRow = (props) => {
         // console.log({...props.request, cotacoes: [...tempArray, { ...props.quotation, ehAprovada: true } ].sort((a, b) => a.id - b.id)});
 
         const newRequestList = {...props.request, cotacoes: [...tempArray, { ...props.quotation, ehAprovada: true } ].sort((a, b) => a.id - b.id)};
-        updateRequisicao(newRequestList, props.request.id);
+        await updateRequisicao(newRequestList, props.request.id);
         props.setSelectedRow(newRequestList);
 
     };
@@ -231,7 +231,7 @@ const CotacaoRow = (props) => {
                             <button onClick={handleDelete}><img src="./src/assets/remove.svg" title="Remover"/></button>
                         </div> : 
                         <div className="containerEditButtons">
-                            <button onClick={handleEdit}><img src="../src/assets/checkmark.svg" title="Confirmar" onClick={handleConfirm} /></button>
+                            <button onClick={handleConfirm}><img src="../src/assets/checkmark.svg" title="Confirmar" /></button>
                             <button onClick={handleCancel}><img src="./src/assets/cancel.svg" title="Cancelar"/></button>
                         </div> }
                     </div> }

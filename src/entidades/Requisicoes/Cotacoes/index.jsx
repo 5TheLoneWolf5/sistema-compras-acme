@@ -31,7 +31,7 @@ const changeStatus = (cotacoesLength) => {
 
 const Cotacoes = (props) => {
 
-    const [approvedQuotation, setApprovedQuotation] = useState();
+    const [approvedQuotation, setApprovedQuotation] = useState([]);
     const [produto, setProduto] = useState([]);
     const [fornecedor, setFornecedor] = useState([]);
 

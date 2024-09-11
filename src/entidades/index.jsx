@@ -11,3 +11,4 @@ export { default as Login } from "./Login";
 export { default as Cadastro } from "./Cadastro";
 export { default as Configuracoes } from "./Configuracoes";
 export { default as Compras } from "./Compras";
+export { default as BlockedHome } from "./BlockedHome";

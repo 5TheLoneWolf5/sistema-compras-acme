@@ -13,6 +13,7 @@ import ContainerFormAuth from "../../componentes/ContainerFormAuth";
 import LabelAuth from "../../componentes/LabelAuth";
 import ForgotPasswordModal from "../../componentes/Modals/ForgotPasswordModal";
 import ButtonModal from "../../componentes/ButtonModal";
+import { obtainUsuario } from "../Configuracoes/GerenciaUsuarios/CrudUsuarios";
 
 const iconStyles = {
     
@@ -38,21 +39,21 @@ const Login = (props) => {
 
     }, []);
 
-    const handleCreate = async () => {
+    const handleLogin = async () => {
 
         // console.log(props.auth);
         await signInWithEmailAndPassword(props.auth, getValues("email"), getValues("password")).then(
-            (userCredentials) => {
+            async (userCredentials) => {
                 const user = userCredentials.user;
-                // console.log(userCredentials, user);
+                const dataUser = await obtainUsuario(user.uid);
+                // console.log(userCredentials, user, user.uid);
                 // console.log(props.auth);
 
                 auth.setUserAuth((data) => { 
                     return {
                     ...data,
+                    ...dataUser,
                     isLogged: true,
-                    email: user.email,
-                    isUser: true,
                 }});
 
                 // console.log(auth);
@@ -74,7 +75,7 @@ const Login = (props) => {
                 <ContainerFormAuth sizes={props.sizes}>
                     <Icon style={{ border: "1px solid black", borderRadius: "10px", margin: "10px", backgroundColor: "white" }} src="./src/assets/logo.svg" width={80} />
                     <h1>ACME<br /><span style={{ fontSize: "24px" }}>Sistema de Compras</span><hr />Login</h1>
-                    <FormAuth onSubmit={handleSubmit(handleCreate)}>
+                    <FormAuth onSubmit={handleSubmit(handleLogin)}>
                         <LabelAuth htmlFor="email">
                             <input {...register("email", {
                                 require: "É necessário digitar o email.",

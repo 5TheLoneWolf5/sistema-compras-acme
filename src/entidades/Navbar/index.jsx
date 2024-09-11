@@ -172,15 +172,20 @@ const Navbar = (props) => {
                 {(toggleMenu || screenSize) && <>
                     <Blackspace onClick={handleMenu} sizes={props.sizes} />
                     <Nav className="slideIn" sizes={props.sizes}>
-                        { auth.userAuth.role === "admin" &&
-                        <>
-                            <Link onClick={handleMenu} className="linksMenu linksNav" to="/compras">Compras</Link>
-                            <Link onClick={handleMenu} className="linksMenu linksNav" to="/produtos">Produtos</Link>
-                            <Link onClick={handleMenu} className="linksMenu linksNav" to="/fornecedores">Fornecedores</Link>
-                            <Link onClick={handleMenu} className="linksMenu linksNav" to="/contatos">Contatos</Link>
-                        </>} 
-                        <Link onClick={handleMenu} className="linksMenu linksNav" to="/requisicoes">Requisições e Cotações</Link>
-                        <Link onClick={handleMenu} className="linksMenu linksNav settingsNav" to="/configuracoes" title="Configurações"><Icon width={60} src="./src/assets/settings.svg" /></Link>
+                        { !auth.userAuth.isBlocked && (
+                            <>
+                                { auth.userAuth.role === "admin" &&
+                                <>
+                                    <Link onClick={handleMenu} className="linksMenu linksNav" to="/compras">Compras</Link>
+                                    <Link onClick={handleMenu} className="linksMenu linksNav" to="/produtos">Produtos</Link>
+                                    <Link onClick={handleMenu} className="linksMenu linksNav" to="/fornecedores">Fornecedores</Link>
+                                    <Link onClick={handleMenu} className="linksMenu linksNav" to="/contatos">Contatos</Link>
+                                </>
+                                } 
+                                <Link onClick={handleMenu} className="linksMenu linksNav" to="/requisicoes">Requisições e Cotações</Link>
+                                <Link onClick={handleMenu} className="linksMenu linksNav settingsNav" to="/configuracoes" title="Configurações"><Icon width={60} src="./src/assets/settings.svg" /></Link>
+                            </> ) 
+                        }
                         <span onClick={handleSignOut} className="linksMenu linksNav sairNav">Sair</span>
                     </Nav>
                 </> }

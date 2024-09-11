@@ -19,7 +19,11 @@ const ModalContainer = styled.div`
 
     width: fit-content;
     max-width: 90%;
+    min-width: 250px;
     max-height: 90%; /* So there can be some space for the user to click out of the modal. */
+    min-height: 80px;
+    // width: max(250px);
+    // height: min(100px);
     border-radius: 4px;
     position: relative;
     top: 50%;
@@ -39,9 +43,10 @@ const CloseButton = styled.img`
 
     width: 30px;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     cursor: pointer;
+    z-index: 3;
 
 `;
 
