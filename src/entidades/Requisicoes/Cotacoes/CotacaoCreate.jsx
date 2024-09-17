@@ -69,10 +69,12 @@ const CotacaoCreate = (props) => {
 
     const handleCreate = async () => {
 
-        // console.log(inputProduto, inputFornecedor);
+        // const sanitizedProduto = inputProduto.replaceAll("'", "");
+        // console.log(inputProduto);
         const idProduto = JSON.parse(inputProduto)["0"];
         const produtoValue = JSON.parse(inputProduto)["1"];
 
+        // const sanitizedFornecedor = inputFornecedor.replaceAll("'", "");
         const idFornecedor = JSON.parse(inputFornecedor)["0"];
         const fornecedorValue = JSON.parse(inputFornecedor)["1"];
         // console.log(props.data);

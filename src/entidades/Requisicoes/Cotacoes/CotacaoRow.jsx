@@ -137,9 +137,11 @@ const CotacaoRow = (props) => {
     // console.log(props.approvedQuotation?.id, props.data.id)
 
     const [inputPreco, setInputPreco] = useState(props.quotation.preco);
-    const [inputProduto, setInputProduto] = useState('{"0": "' + props.quotation.idProduto + '", "1": "' + props.quotation.produto + '"}');
-    const [inputFornecedor, setInputFornecedor] = useState('{"0": "' + props.quotation.idFornecedor + '", "1": "' + props.quotation.fornecedor + '"}');
+    const [inputProduto, setInputProduto] = useState('{"0": "' + props.quotation.idProduto + '", "1": "' + props.quotation.produto.replaceAll("\"", "'") + '"}');
+    const [inputFornecedor, setInputFornecedor] = useState('{"0": "' + props.quotation.idFornecedor + '", "1": "' + props.quotation.fornecedor.replaceAll("\"", "'") + '"}');
     const [toggleEdit, setToogleEdit] = useState(false);
+
+    // const [inputProduto, setInputProduto] = useState("{'0': '" + props.quotation.idProduto + "', '1': '" + props.quotation.produto + "'}");
 
     const auth = useContext(AuthContext);
 

@@ -46,7 +46,7 @@ const Cotacoes = (props) => {
     
             for (let item in data) {
 
-                result.push(<option key={data[item]['id']} value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["produto"] + '"}'}>{data[item]['produto']}</option>);
+                result.push(<option key={data[item]['id']} value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["produto"].replaceAll("\"", "'") + '"}'}>{data[item]['produto']}</option>);
                 // console.log(result);
             }
 
@@ -65,7 +65,8 @@ const Cotacoes = (props) => {
     
             for (let item in data) {
 
-                result.push(<option key={data[item]['id']} value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["nome"] + '"}'}>{data[item]['nome']}</option>);
+                result.push(<option key={data[item]['id']} value={'{"0": "' + data[item]["id"] + '", "1": "' + data[item]["nome"].replaceAll("\"", "'") + '"}'}>{data[item]['nome']}</option>);
+                // result.push(<option key={data[item]['id']} value={'{\'0\': \'' + data[item]["id"] + '\', \'1\': \'' + data[item]["nome"].replaceAll("\"", "") + '\'}'}>{data[item]['nome']}</option>);
                 // console.log(result);
             }
     
