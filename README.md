@@ -7,11 +7,11 @@ This is done through a responsive application, with an authentication and author
 ## Scope and Objectives Definition
 The main objective of the application is to provide purchasing management for the fictitious company ACME. To this end, the application has a pleasant, intuitive, responsive, and functional interface. The scope of the project is scalable and adaptable to the volume of purchases made. It also has/will have:
 
-* Responsiveness, mobile support, and implementation of user gestures.
+* Responsiveness and mobile support.
 
 * Authentication and authorization.
 
-* Implementation in ReactJS and React Native with Firebase.
+* Implementation in React.js with Firebase.
 
 * Export of tables in CSV.
 
@@ -36,9 +36,9 @@ empresa fictícia ACME. Para isso, a aplicação tem uma interface agradável, i
 responsiva e funcional. O escopo do projeto é escalável e adaptável ao volume de
 compras realizadas. Também possui/possuirá:
 
-* Responsividade, suporte ao mobile e implementação de user gestures.
+* Responsividade e suporte ao mobile.
 * Autenticação e autorização.
-* Implementação em ReactJS e React Native junto do Firebase.
+* Implementação em React.js junto do Firebase.
 * Exportação das tabelas em CSV.
 
 <sup>Observação: A autenticação e as credenciais próprias para o Firebase devem ser colocadas em um arquivo na máquina local do usuário que desejar rodar a aplicação, por questões de segurança.</sup>
